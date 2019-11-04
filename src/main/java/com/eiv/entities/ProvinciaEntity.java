@@ -11,76 +11,75 @@ import com.eiv.enums.RegionEnum;
 @Table(name = "provincias")
 public class ProvinciaEntity {
 
-	@Id
-	@Column(name = "provincia_id", nullable = false)
-	private Long id;
-	
-	@Column(name = "nombre", nullable = false, unique = true, length = 400)
-	private String nombre;
-	
-	@Column(name = "region", nullable = false, length = 3)
-	private RegionEnum region;
-	
-	public ProvinciaEntity() {
-	}
+    @Id
+    @Column(name = "provincia_id", nullable = false)
+    private Long id;
+    
+    @Column(name = "nombre", nullable = false, unique = true, length = 400)
+    private String nombre;
+    
+    @Column(name = "region", nullable = false, length = 3)
+    private RegionEnum region;
+    
+    public ProvinciaEntity() {
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public RegionEnum getRegion() {
-		return region;
-	}
+    public RegionEnum getRegion() {
+        return region;
+    }
 
-	public void setRegion(RegionEnum region) {
-		this.region = region;
-	}
+    public void setRegion(RegionEnum region) {
+        this.region = region;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		ProvinciaEntity other = (ProvinciaEntity) obj;
-		if (id == null) {
-			if (other.id != null) {
-				return false;
-			}
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ProvinciaEntity other = (ProvinciaEntity) obj;
+        if (id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!id.equals(other.id)) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return "ProvinciaEntity [id=" + id + ", nombre=" + nombre + "]";
-	}
-	
+    @Override
+    public String toString() {
+        return "ProvinciaEntity [id=" + id + ", nombre=" + nombre + "]";
+    }
 }
