@@ -45,6 +45,8 @@ public class UsuarioEntity {
 
     public void setPersona(PersonaEntity persona) {
         this.persona = persona;
+        this.pk.setTipoDocumentoId(persona.getTipoDocumento().getId());
+        this.pk.setNumeroDocumento(persona.getNumeroDocumento());
     }
 
     public String getNombreUsuario() {
