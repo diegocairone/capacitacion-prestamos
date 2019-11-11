@@ -69,6 +69,7 @@ public class PersonaEntity {
 
     public void setTipoDocumento(TipoDocumentoEntity tipoDocumento) {
         this.tipoDocumento = tipoDocumento;
+        this.pk.setTipoDocumentoId(tipoDocumento.getId());
     }
 
     public Long getNumeroDocumento() {
@@ -77,6 +78,7 @@ public class PersonaEntity {
 
     public void setNumeroDocumento(Long numeroDocumento) {
         this.numeroDocumento = numeroDocumento;
+        this.pk.setNumeroDocumento(numeroDocumento);
     }
 
     public String getNombreApellido() {
