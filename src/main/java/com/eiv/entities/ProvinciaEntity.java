@@ -1,10 +1,12 @@
 package com.eiv.entities;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.eiv.converters.RegionConverter;
 import com.eiv.enums.RegionEnum;
 
 @Entity
@@ -12,12 +14,13 @@ import com.eiv.enums.RegionEnum;
 public class ProvinciaEntity {
 
     @Id
-    @Column(name = "provincia_id", nullable = false)
+    @Column(name = "id_provincia", nullable = false)
     private Long id;
     
     @Column(name = "nombre", nullable = false, unique = true, length = 400)
     private String nombre;
     
+    @Convert(converter = RegionConverter.class)
     @Column(name = "region", nullable = false, length = 3)
     private RegionEnum region;
     

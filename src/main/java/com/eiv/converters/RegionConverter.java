@@ -1,9 +1,11 @@
 package com.eiv.converters;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
 import com.eiv.enums.RegionEnum;
 
+@Converter
 public class RegionConverter implements AttributeConverter<RegionEnum, String> {
 
     @Override

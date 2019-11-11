@@ -17,10 +17,12 @@ public class PrestamoCuotaEntity {
     private PrestamoCuotaPkEntity pk;
     
     @OneToOne
-    @JoinColumn(name = "prestamo_id", referencedColumnName = "prestamo_id", nullable = false)
+    @JoinColumn(name = "prestamo_id", referencedColumnName = "prestamo_id", 
+            nullable = false, insertable = false, updatable = false)
     private PrestamoEntity prestamo;
     
-    @Column(name = "cuota", nullable = false)
+    @Column(name = "cuota", nullable = false,
+            insertable = false, updatable = false)
     private Integer cuota;
     
     @Column(name = "importe_capital", nullable = false)
@@ -29,7 +31,7 @@ public class PrestamoCuotaEntity {
     @Column(name = "importe_interes", nullable = false)
     private BigDecimal interes;
     
-    @Column(name = "importe_interes", nullable = false)
+    @Column(name = "importe_total", nullable = false)
     private BigDecimal total;
     
     public PrestamoCuotaEntity() {

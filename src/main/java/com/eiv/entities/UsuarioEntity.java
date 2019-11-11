@@ -19,7 +19,7 @@ public class UsuarioEntity {
     @OneToOne
     @MapsId("personaPkEntity")
     @JoinColumns({ 
-            @JoinColumn(name = "id_tipousuario", referencedColumnName = "id_tipousuario"),
+            @JoinColumn(name = "id_tipodocumento", referencedColumnName = "id_tipodocumento"),
             @JoinColumn(name = "numero_documento", referencedColumnName = "numero_documento") })
     private PersonaEntity persona;
     
