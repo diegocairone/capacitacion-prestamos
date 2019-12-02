@@ -25,7 +25,7 @@ public class App {
 
     public void run() {
         
-        List<ProvinciaEntity> provinciaEntities = provinciaService.buscar(
+        List<ProvinciaEntity> provinciaEntities = provinciaService.findAll(
                 q -> q.region.eq(RegionEnum.PAMPEANA));
         
         provinciaEntities.forEach(provinciaEntity -> {
