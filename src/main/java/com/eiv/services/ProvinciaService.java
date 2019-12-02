@@ -31,6 +31,15 @@ public class ProvinciaService {
     public List<ProvinciaEntity> findAll() {
         return provinciaRepository.findAll();
     }
+
+    @Transactional(readOnly = true)
+    public List<ProvinciaEntity> findAll(Function<QProvinciaEntity, BooleanExpression> function) {
+        
+        QProvinciaEntity provinciaQuery = QProvinciaEntity.provinciaEntity;
+        BooleanExpression exp = function.apply(provinciaQuery);
+        
+        return (List<ProvinciaEntity>) provinciaRepository.findAll(exp);
+    }
     
     @Transactional
     public ProvinciaEntity nueva(Provincia provincia) {
@@ -70,15 +79,6 @@ public class ProvinciaService {
         provinciaRepository.delete(provinciaEntity);
     }
 
-    @Transactional(readOnly = true)
-    public List<ProvinciaEntity> buscar(Function<QProvinciaEntity, BooleanExpression> function) {
-        
-        QProvinciaEntity provinciaQuery = QProvinciaEntity.provinciaEntity;
-        BooleanExpression exp = function.apply(provinciaQuery);
-        
-        return (List<ProvinciaEntity>) provinciaRepository.findAll(exp);
-    }
-    
     private Supplier<? extends RuntimeException> exceptionSupplier(Long id) {
         return ExceptionUtils.notFoundExceptionSupplier(
                 "NO EXISTE UNA PROVINCIA CON ID %s", id);
