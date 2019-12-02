@@ -46,6 +46,29 @@ public class ProvinciaServiceIT {
         assertThat(provinciaEntity.getNombre()).isEqualTo("TEST");
         assertThat(provinciaEntity.getRegion()).isEqualTo(RegionEnum.CUYO);
     }
+
+    @Test
+    public void givenProvinciaForm_whenUpdate_thenUpdateProvincia() {
+        
+        Provincia provincia = new Provincia() {
+            
+            @Override
+            public RegionEnum getRegion() {
+                return RegionEnum.CUYO;
+            }
+            
+            @Override
+            public String getNombre() {
+                return "TEST";
+            }
+        };
+        
+        ProvinciaEntity provinciaEntity = provinciaService.actualizar(1L, provincia);
+        
+        assertThat(provinciaEntity.getId()).isEqualTo(1L);
+        assertThat(provinciaEntity.getNombre()).isEqualTo("TEST");
+        assertThat(provinciaEntity.getRegion()).isEqualTo(RegionEnum.CUYO);
+    }
     
     @ComponentScan(basePackages = "com.eiv.services")
     public static class TestCfg extends ITestCfg {
