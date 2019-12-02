@@ -40,7 +40,7 @@ public class ProvinciaServiceIT {
             }
         };
         
-        ProvinciaEntity provinciaEntity = provinciaService.nueva(provincia);
+        ProvinciaEntity provinciaEntity = provinciaService.save(provincia);
         
         assertThat(provinciaEntity.getId()).isEqualTo(6L);
         assertThat(provinciaEntity.getNombre()).isEqualTo("TEST");
@@ -63,7 +63,7 @@ public class ProvinciaServiceIT {
             }
         };
         
-        ProvinciaEntity provinciaEntity = provinciaService.actualizar(1L, provincia);
+        ProvinciaEntity provinciaEntity = provinciaService.save(1L, provincia);
         
         assertThat(provinciaEntity.getId()).isEqualTo(1L);
         assertThat(provinciaEntity.getNombre()).isEqualTo("TEST");
