@@ -2,14 +2,23 @@ package com.eiv.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @Table(name = "tipos_documentos")
 public class TipoDocumentoEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "generador")
+    @TableGenerator(
+            table = "SEQUENCE_TABLE", name = "generador", 
+            pkColumnName = "seq_name", valueColumnName = "seq_value", 
+            pkColumnValue = "tipo_documento_seq",
+            allocationSize = 1, initialValue = 1)
     @Column(name = "id_tipodocumento", nullable = false)
     private Long id;
     
