@@ -13,9 +13,9 @@ import javax.persistence.TableGenerator;
 public class TipoDocumentoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "generador")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "gen_tipos_documentos")
     @TableGenerator(
-            table = "SEQUENCE_TABLE", name = "generador", 
+            table = "SEQUENCE_TABLE", name = "gen_tipos_documentos", 
             pkColumnName = "seq_name", valueColumnName = "seq_value", 
             pkColumnValue = "tipo_documento_seq",
             allocationSize = 1, initialValue = 1)

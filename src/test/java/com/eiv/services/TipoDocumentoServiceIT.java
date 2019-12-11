@@ -50,20 +50,67 @@ public class TipoDocumentoServiceIT {
         };
         
         TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoService.save(tipoDocumento);
-        
-        assertThat(tipoDocumentoEntity.getId()).isEqualTo(2L);
+        Optional<TipoDocumentoEntity> expected = tipoDocumentoRepository.findById(
+                tipoDocumentoEntity.getId());
+
+        assertThat(expected).isNotEmpty();
+        assertThat(expected.get()).isEqualTo(tipoDocumentoEntity);
+
         assertThat(tipoDocumentoEntity.getNombre()).isEqualTo(
                 tipoDocumento.getNombre());
         assertThat(tipoDocumentoEntity.getAbreviatura()).isEqualTo(
                 tipoDocumento.getAbreviatura());
-        assertThat(tipoDocumentoEntity.getValidarComoCuit()).isTrue();
-        
-        Optional<TipoDocumentoEntity> expected = tipoDocumentoRepository.findById(
-                tipoDocumentoEntity.getId());
-        
+        assertThat(tipoDocumentoEntity.getValidarComoCuit()).isEqualTo(
+                tipoDocumento.getValidarComoCuit());
+    }
+    
+    @Test
+    @Transactional
+    public void givenTipoDocumentoForm_whenUpdate_thenUpdateTipoDocumento() {
+
+        TipoDocumento tipoDocumento = new TipoDocumento() {
+            
+            @Override
+            public Boolean getValidarComoCuit() {
+                return true;
+            }
+            
+            @Override
+            public String getNombre() {
+                return "--TEST--";
+            }
+            
+            @Override
+            public String getAbreviatura() {
+                return "TEST";
+            }
+        };
+
+        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoService.save(1L, tipoDocumento);
+        Optional<TipoDocumentoEntity> expected = tipoDocumentoRepository.findById(1L);
+
         assertThat(expected).isNotEmpty();
         assertThat(expected.get()).isEqualTo(tipoDocumentoEntity);
         
+        assertThat(tipoDocumentoEntity.getNombre()).isEqualTo(
+                tipoDocumento.getNombre());
+        assertThat(tipoDocumentoEntity.getAbreviatura()).isEqualTo(
+                tipoDocumento.getAbreviatura());
+        assertThat(tipoDocumentoEntity.getValidarComoCuit()).isEqualTo(
+                tipoDocumento.getValidarComoCuit());
+    }
+    
+    @Test
+    @Transactional
+    public void givenTipoDocumentoId_whenDelete_thenNoExisteTipoDocumento() {
+        
+        Optional<TipoDocumentoEntity> expected = tipoDocumentoRepository.findById(1L);
+        assertThat(expected).isNotEmpty();
+        
+        tipoDocumentoService.delete(1L);
+        
+        boolean exist = tipoDocumentoRepository.existsById(1L);
+        assertThat(exist).isFalse();
     }
 
     @ComponentScan(basePackages = "com.eiv.services")

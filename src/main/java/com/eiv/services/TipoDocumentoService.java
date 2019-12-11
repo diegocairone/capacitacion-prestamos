@@ -3,6 +3,7 @@ package com.eiv.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import com.eiv.entities.QTipoDocumentoEntity;
 import com.eiv.entities.TipoDocumentoEntity;
 import com.eiv.interfaces.TipoDocumento;
 import com.eiv.repositories.TipoDocumentoRepository;
+import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 @Service
@@ -47,8 +49,35 @@ public class TipoDocumentoService {
         
         tipoDocumentoRepository.save(tipoDocumentoEntity);
         
-//        tipoDocumentoEntity.setId(id);
+        return tipoDocumentoEntity;
+    }
+
+    @Transactional
+    public TipoDocumentoEntity save(Long id, TipoDocumento tipoDocumento) {
+
+        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoRepository.findById(id)
+                .orElseThrow(exceptionSupplier(id));
+        
+        tipoDocumentoEntity.setNombre(tipoDocumento.getNombre());
+        tipoDocumentoEntity.setAbreviatura(tipoDocumento.getAbreviatura());
+        tipoDocumentoEntity.setValidarComoCuit(tipoDocumento.getValidarComoCuit());
+        
+        tipoDocumentoRepository.save(tipoDocumentoEntity);
         
         return tipoDocumentoEntity;
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        
+        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoRepository.findById(id)
+                .orElseThrow(exceptionSupplier(id));
+        
+        tipoDocumentoRepository.delete(tipoDocumentoEntity);
+    }
+
+    private Supplier<? extends RuntimeException> exceptionSupplier(Long id) {
+        return ExceptionUtils.notFoundExceptionSupplier(
+                "NO EXISTE UN TIPO DE DOCUMENTO CON ID %s", id);
     }
 }

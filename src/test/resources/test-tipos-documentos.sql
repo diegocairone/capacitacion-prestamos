@@ -10,7 +10,7 @@ INSERT INTO SEQUENCE_TABLE VALUES ('tipo_documento_seq', 1);
 
 DROP TABLE IF EXISTS tipos_documentos;
 CREATE TABLE tipos_documentos (
-	id_tipodocumento INT NOT NULL auto_increment,
+	id_tipodocumento INT NOT NULL,
 	nombre VARCHAR(200) NOT NULL,
 	abreviatura VARCHAR(5) NOT NULL,
 	validar_como_cuit BOOLEAN NOT NULL,

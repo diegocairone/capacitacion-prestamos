@@ -44,10 +44,8 @@ public class ProvinciaService {
     @Transactional
     public ProvinciaEntity save(Provincia provincia) {
         
-        Long id = provinciaRepository.getMax().orElse(0L) + 1L;
         ProvinciaEntity provinciaEntity = new ProvinciaEntity();
         
-        provinciaEntity.setId(id);
         provinciaEntity.setNombre(provincia.getNombre());
         provinciaEntity.setRegion(provincia.getRegion());
         

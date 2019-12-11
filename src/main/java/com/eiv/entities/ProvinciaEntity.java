@@ -3,8 +3,11 @@ package com.eiv.entities;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 import com.eiv.converters.RegionConverter;
 import com.eiv.enums.RegionEnum;
@@ -14,6 +17,12 @@ import com.eiv.enums.RegionEnum;
 public class ProvinciaEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "gen_provincias")
+    @TableGenerator(
+            table = "SEQUENCE_TABLE", name = "gen_provincias", 
+            pkColumnName = "seq_name", valueColumnName = "seq_value", 
+            pkColumnValue = "provincia_seq",
+            allocationSize = 1, initialValue = 1)
     @Column(name = "id_provincia", nullable = false)
     private Long id;
     

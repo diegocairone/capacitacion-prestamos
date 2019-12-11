@@ -67,15 +67,21 @@ public class LocalidadService {
                 .findById(id)
                 .orElseThrow(() -> new NotFoundServiceException(
                         "NO SE ENCUENTRA UNA LOCALIDAD CON ID %s", id));
-
-        ProvinciaEntity provinciaEntity = provinciaRepository
-                .findById(localidad.getProvinciaId())
-                .orElseThrow(() -> new NotFoundServiceException(
-                        "NO SE ENCUENTRA UNA PROVINCIA CON ID %s", localidad.getProvinciaId()));
         
         localidadEntity.setNombre(localidad.getNombre());
-        localidadEntity.setProvincia(provinciaEntity);
         localidadEntity.setCodigoPostal(localidad.getCodigoPostal());
+        
+        if (!localidad.getProvinciaId().equals(
+                localidadEntity.getProvincia().getId())) {
+
+            ProvinciaEntity provinciaEntity = provinciaRepository
+                    .findById(localidad.getProvinciaId())
+                    .orElseThrow(() -> new NotFoundServiceException(
+                            "NO SE ENCUENTRA UNA PROVINCIA CON ID %s", 
+                            localidad.getProvinciaId()));
+            
+            localidadEntity.setProvincia(provinciaEntity);
+        }
         
         localidadRepository.save(localidadEntity);
         

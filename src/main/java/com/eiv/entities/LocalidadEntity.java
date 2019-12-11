@@ -2,24 +2,34 @@ package com.eiv.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 
 @Entity
 @Table(name = "localidades")
 public class LocalidadEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "gen_localidades")
+    @TableGenerator(
+            table = "SEQUENCE_TABLE", name = "gen_localidades", 
+            pkColumnName = "seq_name", valueColumnName = "seq_value", 
+            pkColumnValue = "localidad_seq",
+            allocationSize = 1, initialValue = 1)
     @Column(name = "id_localidad", nullable = false)
     private Long id;
     
     @Column(name = "nombre", nullable = false, length = 300)
     private String nombre;
 
-    @OneToOne
-    @JoinColumn(name = "id_provicia", referencedColumnName = "id_provincia", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_provincia", referencedColumnName = "id_provincia", nullable = false)
     private ProvinciaEntity provincia;
     
     @Column(name = "codigo_postal", nullable = false, length = 10)
