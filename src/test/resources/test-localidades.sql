@@ -30,7 +30,7 @@ CREATE TABLE localidades (
 	nombre VARCHAR(300) NOT NULL,
 	id_provincia INT NOT NULL,
 	codigo_postal VARCHAR(10) NOT NULL,
-	PRIMARY KEY(id_provincia),
+	PRIMARY KEY(id_localidad),
 	FOREIGN KEY (id_provincia) REFERENCES provincias (id_provincia)
 );
 

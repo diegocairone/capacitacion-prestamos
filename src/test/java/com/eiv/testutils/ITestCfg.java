@@ -30,6 +30,7 @@ public abstract class ITestCfg {
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setDatabase(Database.H2);
+        vendorAdapter.setShowSql(true);
 
         LocalContainerEntityManagerFactoryBean factory = 
                 new LocalContainerEntityManagerFactoryBean();
