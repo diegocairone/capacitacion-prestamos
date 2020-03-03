@@ -12,6 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.eiv.enums.SistemaAmortizacionEnum;
+import com.eiv.enums.TasaTipoEnum;
+import com.eiv.enums.UnidadAmortizacionEnum;
 
 @Entity
 @Table(name = "lineas")
@@ -26,6 +28,18 @@ public class LineaEntity {
     
     @Column(name = "sistema_amortizacion", nullable = false, length = 1)
     private SistemaAmortizacionEnum sistemaAmortizacion;
+
+    @Column(name = "tasa_tipo", nullable = false, length = 1)
+    private TasaTipoEnum tasaTipo;
+    
+    @Column(name = "tasa_modulo", nullable = false)
+    private Integer tasaModulo;
+
+    @Column(name = "amortizaciones_cantidad", nullable = false)
+    private Integer amortizacionesCantidad;
+
+    @Column(name = "amortizaciones_unidad", nullable = false)
+    private UnidadAmortizacionEnum amortizacionesUnidad;
     
     @Column(name = "tasa_min", nullable = false)
     private BigDecimal tasaMin;
@@ -75,6 +89,38 @@ public class LineaEntity {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public TasaTipoEnum getTasaTipo() {
+        return tasaTipo;
+    }
+
+    public void setTasaTipo(TasaTipoEnum tasaTipo) {
+        this.tasaTipo = tasaTipo;
+    }
+
+    public Integer getTasaModulo() {
+        return tasaModulo;
+    }
+
+    public void setTasaModulo(Integer tasaModulo) {
+        this.tasaModulo = tasaModulo;
+    }
+
+    public Integer getAmortizacionesCantidad() {
+        return amortizacionesCantidad;
+    }
+
+    public void setAmortizacionesCantidad(Integer amortizacionesCantidad) {
+        this.amortizacionesCantidad = amortizacionesCantidad;
+    }
+
+    public UnidadAmortizacionEnum getAmortizacionesUnidad() {
+        return amortizacionesUnidad;
+    }
+
+    public void setAmortizacionesUnidad(UnidadAmortizacionEnum amortizacionesUnidad) {
+        this.amortizacionesUnidad = amortizacionesUnidad;
     }
 
     public SistemaAmortizacionEnum getSistemaAmortizacion() {
