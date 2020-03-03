@@ -11,12 +11,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.eiv.enums.GeneroEnum;
+import com.querydsl.core.annotations.PropertyType;
+import com.querydsl.core.annotations.QueryType;
 
 @Entity
 @Table(name = "personas")
 public class PersonaEntity {
 
     @EmbeddedId
+    @QueryType(PropertyType.NONE)
     private PersonaPkEntity pk;
     
     @OneToOne

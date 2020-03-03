@@ -19,6 +19,12 @@ public class PersonaPkEntity implements Serializable {
     public PersonaPkEntity() {
     }
 
+    public PersonaPkEntity(long tipoDocumentoId, long numeroDocumento) {
+        super();
+        this.tipoDocumentoId = tipoDocumentoId;
+        this.numeroDocumento = numeroDocumento;
+    }
+
     public PersonaPkEntity(TipoDocumentoEntity tipoDocumentoEntity, long numeroDocumento) {
         super();
         this.tipoDocumentoId = tipoDocumentoEntity == null ? null : tipoDocumentoEntity.getId();
