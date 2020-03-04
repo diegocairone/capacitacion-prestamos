@@ -11,6 +11,8 @@ import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.eiv.enums.UnidadAmortizacionEnum;
+
 @Entity
 @Table(name = "prestamos")
 public class PrestamoEntity {
@@ -18,9 +20,34 @@ public class PrestamoEntity {
     @Id
     @Column(name = "prestamo_id", nullable = false)
     private long id;
+
+    @OneToOne
+    @JoinColumn(name = "linea_id", referencedColumnName = "linea_id", nullable = false)
+    private LineaEntity linea;
     
     @Column(name = "fecha_alta", nullable = false)
     private LocalDate fechaAlta;
+
+    @Column(name = "tasa_efectiva", nullable = false)
+    private BigDecimal tasaEfectiva;
+    
+    @Column(name = "tasa_modulo", nullable = false)
+    private Integer tasaModulo;
+
+    @Column(name = "amortizaciones_cantidad", nullable = false)
+    private Integer amortizacionesCantidad;
+
+    @Column(name = "amortizaciones_unidad", nullable = false)
+    private UnidadAmortizacionEnum amortizacionesUnidad;
+
+    @Column(name = "capital_prestado", nullable = false)
+    private BigDecimal capitalPrestado;
+    
+    @Column(name = "total_intereses", nullable = false)
+    private BigDecimal totalIntereses;
+
+    @Column(name = "total_cuotas", nullable = false)
+    private Integer totalCuotas;
 
     @OneToOne
     @JoinColumns({
@@ -31,22 +58,6 @@ public class PrestamoEntity {
                     name = "usuario_numero_documento", referencedColumnName = "numero_documento", 
                     nullable = false) })
     private UsuarioEntity usuario;
-    
-    @OneToOne
-    @JoinColumn(name = "linea_id", referencedColumnName = "linea_id", nullable = false)
-    private LineaEntity linea;
-    
-    @Column(name = "tea", nullable = false)
-    private BigDecimal tea;
-    
-    @Column(name = "tea_modulo", nullable = false)
-    private Integer teaModulo;
-    
-    @Column(name = "capital_prestado", nullable = false)
-    private BigDecimal capitalPrestado;
-    
-    @Column(name = "total_intereses", nullable = false)
-    private BigDecimal totalIntereses;
     
     public PrestamoEntity() {
     }
@@ -59,22 +70,6 @@ public class PrestamoEntity {
         this.id = id;
     }
 
-    public LocalDate getFechaAlta() {
-        return fechaAlta;
-    }
-
-    public void setFechaAlta(LocalDate fechaAlta) {
-        this.fechaAlta = fechaAlta;
-    }
-
-    public UsuarioEntity getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(UsuarioEntity usuario) {
-        this.usuario = usuario;
-    }
-
     public LineaEntity getLinea() {
         return linea;
     }
@@ -83,20 +78,44 @@ public class PrestamoEntity {
         this.linea = linea;
     }
 
-    public BigDecimal getTea() {
-        return tea;
+    public LocalDate getFechaAlta() {
+        return fechaAlta;
     }
 
-    public void setTea(BigDecimal tea) {
-        this.tea = tea;
+    public void setFechaAlta(LocalDate fechaAlta) {
+        this.fechaAlta = fechaAlta;
     }
 
-    public Integer getTeaModulo() {
-        return teaModulo;
+    public BigDecimal getTasaEfectiva() {
+        return tasaEfectiva;
     }
 
-    public void setTeaModulo(Integer teaModulo) {
-        this.teaModulo = teaModulo;
+    public void setTasaEfectiva(BigDecimal tasaEfectiva) {
+        this.tasaEfectiva = tasaEfectiva;
+    }
+
+    public Integer getTasaModulo() {
+        return tasaModulo;
+    }
+
+    public void setTasaModulo(Integer tasaModulo) {
+        this.tasaModulo = tasaModulo;
+    }
+
+    public Integer getAmortizacionesCantidad() {
+        return amortizacionesCantidad;
+    }
+
+    public void setAmortizacionesCantidad(Integer amortizacionesCantidad) {
+        this.amortizacionesCantidad = amortizacionesCantidad;
+    }
+
+    public UnidadAmortizacionEnum getAmortizacionesUnidad() {
+        return amortizacionesUnidad;
+    }
+
+    public void setAmortizacionesUnidad(UnidadAmortizacionEnum amortizacionesUnidad) {
+        this.amortizacionesUnidad = amortizacionesUnidad;
     }
 
     public BigDecimal getCapitalPrestado() {
@@ -113,6 +132,22 @@ public class PrestamoEntity {
 
     public void setTotalIntereses(BigDecimal totalIntereses) {
         this.totalIntereses = totalIntereses;
+    }
+
+    public Integer getTotalCuotas() {
+        return totalCuotas;
+    }
+
+    public void setTotalCuotas(Integer totalCuotas) {
+        this.totalCuotas = totalCuotas;
+    }
+
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
     }
 
     @Override
@@ -143,7 +178,6 @@ public class PrestamoEntity {
 
     @Override
     public String toString() {
-        return "PrestamoEntity [id=" + id + ", fechaAlta=" + fechaAlta + "]";
-    }
-    
+        return "PrestamoEntity [id=" + id + ", linea=" + linea + "]";
+    }    
 }

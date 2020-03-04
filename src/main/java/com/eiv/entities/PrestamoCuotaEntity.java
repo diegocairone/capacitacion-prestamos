@@ -9,11 +9,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.querydsl.core.annotations.PropertyType;
+import com.querydsl.core.annotations.QueryType;
+
 @Entity
 @Table(name = "prestamos_cuotas")
 public class PrestamoCuotaEntity {
 
     @EmbeddedId
+    @QueryType(PropertyType.NONE)
     private PrestamoCuotaPkEntity pk;
     
     @OneToOne

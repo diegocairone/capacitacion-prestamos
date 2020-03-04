@@ -10,4 +10,9 @@ public class ExceptionUtils {
             String message, Object... args) {
         return () -> new NotFoundServiceException(message, args);
     }
+
+    public static Supplier<? extends RuntimeException> dataIntegrityViolationExceptionSupplier(
+            String message, Object... args) {
+        return () -> new NotFoundServiceException(message, args);
+    }
 }
