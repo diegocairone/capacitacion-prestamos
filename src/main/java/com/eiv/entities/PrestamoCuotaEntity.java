@@ -1,6 +1,7 @@
 package com.eiv.entities;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -25,9 +26,11 @@ public class PrestamoCuotaEntity {
             nullable = false, insertable = false, updatable = false)
     private PrestamoEntity prestamo;
     
-    @Column(name = "cuota", nullable = false,
-            insertable = false, updatable = false)
+    @Column(name = "cuota", nullable = false, insertable = false, updatable = false)
     private Integer cuota;
+    
+    @Column(name = "fecha_vencimiento", nullable = false)
+    private LocalDate fechaVencimiento;
     
     @Column(name = "importe_capital", nullable = false)
     private BigDecimal capital;
@@ -63,6 +66,14 @@ public class PrestamoCuotaEntity {
 
     public void setCuota(Integer cuota) {
         this.cuota = cuota;
+    }
+
+    public LocalDate getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(LocalDate fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
     }
 
     public BigDecimal getCapital() {

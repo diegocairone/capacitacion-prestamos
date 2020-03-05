@@ -47,6 +47,7 @@ public class PrestamoCuotaService {
         
         prestamoCuotaEntity.setPrestamo(prestamoEntity);
         prestamoCuotaEntity.setCuota(prestamoCuota.getCuota());
+        prestamoCuotaEntity.setFechaVencimiento(prestamoCuota.getFechaVencimiento());
         prestamoCuotaEntity.setCapital(prestamoCuota.getCapital());
         prestamoCuotaEntity.setInteres(prestamoCuota.getInteres());
         prestamoCuotaEntity.setTotal(prestamoCuota.getCapital().add(prestamoCuota.getInteres()));
