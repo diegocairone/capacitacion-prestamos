@@ -130,6 +130,7 @@ public class PrestamoService {
         prestamoEntity.setPersona(persona);
         prestamoEntity.setLinea(linea);
         prestamoEntity.setFechaAlta(LocalDate.now());
+        prestamoEntity.setFechaPrimerVto(prestamo.getFechaPrimerVto());
         prestamoEntity.setTasaEfectiva(prestamo.getTasaEfectiva());
         prestamoEntity.setTasaModulo(prestamo.getTasaModulo());
         prestamoEntity.setAmortizacionPeriodo(prestamo.getAmortizacionPeriodo());

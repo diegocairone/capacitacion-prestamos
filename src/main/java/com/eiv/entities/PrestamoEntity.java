@@ -38,6 +38,9 @@ public class PrestamoEntity {
     @Column(name = "fecha_alta", nullable = false)
     private LocalDate fechaAlta;
 
+    @Column(name = "fecha_primer_vto", nullable = false)
+    private LocalDate fechaPrimerVto;
+
     @Column(name = "tasa_efectiva", nullable = false)
     private BigDecimal tasaEfectiva;
     
@@ -102,6 +105,14 @@ public class PrestamoEntity {
 
     public void setFechaAlta(LocalDate fechaAlta) {
         this.fechaAlta = fechaAlta;
+    }
+
+    public LocalDate getFechaPrimerVto() {
+        return fechaPrimerVto;
+    }
+
+    public void setFechaPrimerVto(LocalDate fechaPrimerVto) {
+        this.fechaPrimerVto = fechaPrimerVto;
     }
 
     public BigDecimal getTasaEfectiva() {

@@ -13,7 +13,7 @@ public interface Prestamo {
     
     public Long getLineaId();
 
-    public LocalDate getFechaAlta();
+    public LocalDate getFechaPrimerVto();
 
     public BigDecimal getTasaEfectiva();
 
