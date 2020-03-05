@@ -132,8 +132,8 @@ public class PrestamoService {
         prestamoEntity.setFechaAlta(LocalDate.now());
         prestamoEntity.setTasaEfectiva(prestamo.getTasaEfectiva());
         prestamoEntity.setTasaModulo(prestamo.getTasaModulo());
-        prestamoEntity.setAmortizacionesCantidad(prestamo.getAmortizacionesCantidad());
-        prestamoEntity.setAmortizacionesUnidad(prestamo.getAmortizacionesUnidad());
+        prestamoEntity.setAmortizacionPeriodo(prestamo.getAmortizacionPeriodo());
+        prestamoEntity.setAmortizacionUnidad(prestamo.getAmortizacionUnidad());
         prestamoEntity.setCapitalPrestado(prestamo.getCapitalPrestado());
         prestamoEntity.setTotalIntereses(null);
         prestamoEntity.setTotalCuotas(prestamo.getTotalCuotas());

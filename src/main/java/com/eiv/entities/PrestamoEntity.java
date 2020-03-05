@@ -44,11 +44,11 @@ public class PrestamoEntity {
     @Column(name = "tasa_modulo", nullable = false)
     private Integer tasaModulo;
 
-    @Column(name = "amortizaciones_cantidad", nullable = false)
-    private Integer amortizacionesCantidad;
+    @Column(name = "amortizacion_periodo", nullable = false)
+    private Integer amortizacionPeriodo;
 
-    @Column(name = "amortizaciones_unidad", nullable = false)
-    private UnidadAmortizacionEnum amortizacionesUnidad;
+    @Column(name = "amortizacion_unidad", nullable = false)
+    private UnidadAmortizacionEnum amortizacionUnidad;
 
     @Column(name = "capital_prestado", nullable = false)
     private BigDecimal capitalPrestado;
@@ -120,20 +120,20 @@ public class PrestamoEntity {
         this.tasaModulo = tasaModulo;
     }
 
-    public Integer getAmortizacionesCantidad() {
-        return amortizacionesCantidad;
+    public Integer getAmortizacionPeriodo() {
+        return amortizacionPeriodo;
     }
 
-    public void setAmortizacionesCantidad(Integer amortizacionesCantidad) {
-        this.amortizacionesCantidad = amortizacionesCantidad;
+    public void setAmortizacionPeriodo(Integer amortizacionPeriodo) {
+        this.amortizacionPeriodo = amortizacionPeriodo;
     }
 
-    public UnidadAmortizacionEnum getAmortizacionesUnidad() {
-        return amortizacionesUnidad;
+    public UnidadAmortizacionEnum getAmortizacionUnidad() {
+        return amortizacionUnidad;
     }
 
-    public void setAmortizacionesUnidad(UnidadAmortizacionEnum amortizacionesUnidad) {
-        this.amortizacionesUnidad = amortizacionesUnidad;
+    public void setAmortizacionUnidad(UnidadAmortizacionEnum amortizacionUnidad) {
+        this.amortizacionUnidad = amortizacionUnidad;
     }
 
     public BigDecimal getCapitalPrestado() {
