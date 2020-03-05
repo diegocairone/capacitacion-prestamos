@@ -17,8 +17,12 @@ import com.eiv.entities.PrestamoEntity;
 import com.eiv.entities.QPrestamoEntity;
 import com.eiv.entities.UsuarioEntity;
 import com.eiv.enums.TasaTipoEnum;
+import com.eiv.enums.UnidadAmortizacionEnum;
 import com.eiv.exceptions.DataIntegrityViolationServiceException;
 import com.eiv.interfaces.Prestamo;
+import com.eiv.maths.ctf.ConversorTasaFinanciera;
+import com.eiv.maths.ctf.TasaFinanciera;
+import com.eiv.maths.ctf.TipoTasaFinancieraEnum;
 import com.eiv.repositories.LineaRepository;
 import com.eiv.repositories.PersonaRepository;
 import com.eiv.repositories.PrestamoRepository;
@@ -67,9 +71,12 @@ public class PrestamoService {
         // VALIDACION: LA TASA DEL PRESTAMO ESTA EN EL RANGO ADMITIDO DE LA LINEA
         
         BigDecimal tasa = prestamo.getTasaEfectiva();
+        long modulo = prestamo.getTasaModulo();
+        long dias = prestamo.getAmortizacionUnidad().equals(UnidadAmortizacionEnum.DIA) 
+                ? modulo : modulo * 30;
         
         if (linea.getTasaTipo().equals(TasaTipoEnum.NOMINAL)) {
-            tasa = convertirTasaEfectivaEnNominal(tasa);
+            tasa = convertirTasaEfectivaEnNominal(tasa, modulo, dias);
         }
         
         if (tasa.compareTo(linea.getTasaMin()) == -1) {
@@ -155,8 +162,18 @@ public class PrestamoService {
         prestamoRepository.delete(prestamoEntity);
     }
     
-    private BigDecimal convertirTasaEfectivaEnNominal(BigDecimal tasa) {
-        //FIXME NO IMPLEMENTADO: CONVERTIR TASA EFECTIVA EN NOMINAL VENCIDA
-        return tasa;
+    private BigDecimal convertirTasaEfectivaEnNominal(BigDecimal tasa, long modulo, long dias) {
+        
+        ConversorTasaFinanciera conversor = new ConversorTasaFinanciera();
+        
+        Optional<TasaFinanciera> resultado = conversor
+                .datosIniciales(tf -> {
+                    tf.setModulo(modulo);
+                    tf.setTipo(TipoTasaFinancieraEnum.TE);
+                    tf.setValor(tasa);
+                }).calcular(TipoTasaFinancieraEnum.TNV, modulo, dias)
+                .resultado();
+        
+        return resultado.get().getValor();
     }
 }
