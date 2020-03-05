@@ -14,9 +14,9 @@ public interface Linea {
 
     public Integer getTasaModulo();
 
-    public Integer getAmortizacionesCantidad();
+    public Integer getAmortizacionPeriodo();
 
-    public UnidadAmortizacionEnum getAmortizacionesUnidad();
+    public UnidadAmortizacionEnum getAmortizacionUnidad();
 
     public SistemaAmortizacionEnum getSistemaAmortizacion();
 

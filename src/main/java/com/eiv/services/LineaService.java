@@ -48,8 +48,8 @@ public class LineaService {
         lineaEntity.setNombre(linea.getNombre());
         lineaEntity.setTasaTipo(linea.getTasaTipo());
         lineaEntity.setTasaModulo(linea.getTasaModulo());
-        lineaEntity.setAmortizacionesCantidad(linea.getAmortizacionesCantidad());
-        lineaEntity.setAmortizacionesUnidad(linea.getAmortizacionesUnidad());
+        lineaEntity.setAmortizacionPeriodo(linea.getAmortizacionPeriodo());
+        lineaEntity.setAmortizacionUnidad(linea.getAmortizacionUnidad());
         lineaEntity.setSistemaAmortizacion(linea.getSistemaAmortizacion());
         lineaEntity.setTasaMin(linea.getTasaMin());
         lineaEntity.setTasaMax(linea.getTasaMax());
@@ -75,8 +75,8 @@ public class LineaService {
         lineaEntity.setNombre(linea.getNombre());
         lineaEntity.setTasaTipo(linea.getTasaTipo());
         lineaEntity.setTasaModulo(linea.getTasaModulo());
-        lineaEntity.setAmortizacionesCantidad(linea.getAmortizacionesCantidad());
-        lineaEntity.setAmortizacionesUnidad(linea.getAmortizacionesUnidad());
+        lineaEntity.setAmortizacionPeriodo(linea.getAmortizacionPeriodo());
+        lineaEntity.setAmortizacionUnidad(linea.getAmortizacionUnidad());
         lineaEntity.setSistemaAmortizacion(linea.getSistemaAmortizacion());
         lineaEntity.setTasaMin(linea.getTasaMin());
         lineaEntity.setTasaMax(linea.getTasaMax());
