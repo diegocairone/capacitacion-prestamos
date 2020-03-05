@@ -22,6 +22,16 @@ public class PrestamoEntity {
     private long id;
 
     @OneToOne
+    @JoinColumns({
+            @JoinColumn(
+                    name = "id_tipodocumento", referencedColumnName = "id_tipodocumento", 
+                    nullable = false),
+            @JoinColumn(
+                    name = "numero_documento", referencedColumnName = "numero_documento", 
+                    nullable = false) })
+    private PersonaEntity persona;
+    
+    @OneToOne
     @JoinColumn(name = "linea_id", referencedColumnName = "linea_id", nullable = false)
     private LineaEntity linea;
     
@@ -68,6 +78,14 @@ public class PrestamoEntity {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public PersonaEntity getPersona() {
+        return persona;
+    }
+
+    public void setPersona(PersonaEntity persona) {
+        this.persona = persona;
     }
 
     public LineaEntity getLinea() {

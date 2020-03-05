@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eiv.entities.LineaEntity;
+import com.eiv.entities.PersonaEntity;
+import com.eiv.entities.PersonaPkEntity;
 import com.eiv.entities.PrestamoEntity;
 import com.eiv.entities.QPrestamoEntity;
 import com.eiv.entities.UsuarioEntity;
@@ -18,6 +20,7 @@ import com.eiv.enums.TasaTipoEnum;
 import com.eiv.exceptions.DataIntegrityViolationServiceException;
 import com.eiv.interfaces.Prestamo;
 import com.eiv.repositories.LineaRepository;
+import com.eiv.repositories.PersonaRepository;
 import com.eiv.repositories.PrestamoRepository;
 import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -26,6 +29,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 public class PrestamoService {
 
     @Autowired private LineaRepository lineaRepository;
+    @Autowired private PersonaRepository personaRepository;
     @Autowired private PrestamoRepository prestamoRepository;
 
     @Transactional(readOnly = true)
@@ -46,10 +50,18 @@ public class PrestamoService {
     public PrestamoEntity nuevo(Prestamo prestamo, UsuarioEntity usuarioEntity) {
         
         final long id = prestamoRepository.getMax().orElse(0L) +  1L;
+        
         final LineaEntity linea = lineaRepository.findById(prestamo.getLineaId()).orElseThrow(
                 ExceptionUtils.notFoundExceptionSupplier(
                         "NO EXISTE UNA LINEA CON ID %s", prestamo.getLineaId()));
 
+        final PersonaEntity persona = personaRepository.findById(
+                        new PersonaPkEntity(
+                                prestamo.getDocumentoTipoId(), prestamo.getNumeroDocumento()))
+                .orElseThrow(
+                        ExceptionUtils.notFoundExceptionSupplier(
+                                "NO EXISTE UNA LINEA CON ID %s", prestamo.getLineaId()));
+        
         // *** VALIDACIONES RESPECTO DE LA LINEA DE PRESTAMO
         
         // VALIDACION: LA TASA DEL PRESTAMO ESTA EN EL RANGO ADMITIDO DE LA LINEA
@@ -115,6 +127,7 @@ public class PrestamoService {
         PrestamoEntity prestamoEntity = new PrestamoEntity();
         
         prestamoEntity.setId(id);
+        prestamoEntity.setPersona(persona);
         prestamoEntity.setLinea(linea);
         prestamoEntity.setFechaAlta(LocalDate.now());
         prestamoEntity.setTasaEfectiva(prestamo.getTasaEfectiva());
@@ -122,7 +135,7 @@ public class PrestamoService {
         prestamoEntity.setAmortizacionesCantidad(prestamo.getAmortizacionesCantidad());
         prestamoEntity.setAmortizacionesUnidad(prestamo.getAmortizacionesUnidad());
         prestamoEntity.setCapitalPrestado(prestamo.getCapitalPrestado());
-        prestamoEntity.setTotalIntereses(prestamo.getTotalIntereses());
+        prestamoEntity.setTotalIntereses(null);
         prestamoEntity.setTotalCuotas(prestamo.getTotalCuotas());
         prestamoEntity.setUsuario(usuarioEntity);
                 

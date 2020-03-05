@@ -7,6 +7,10 @@ import com.eiv.enums.UnidadAmortizacionEnum;
 
 public interface Prestamo {
     
+    public Long getDocumentoTipoId();
+    
+    public Long getNumeroDocumento();
+    
     public Long getLineaId();
 
     public LocalDate getFechaAlta();
@@ -20,8 +24,6 @@ public interface Prestamo {
     public UnidadAmortizacionEnum getAmortizacionesUnidad();
 
     public BigDecimal getCapitalPrestado();
-
-    public BigDecimal getTotalIntereses();
 
     public Integer getTotalCuotas();
 
