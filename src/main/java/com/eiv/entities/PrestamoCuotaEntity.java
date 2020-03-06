@@ -40,6 +40,9 @@ public class PrestamoCuotaEntity {
     
     @Column(name = "importe_total", nullable = false)
     private BigDecimal total;
+
+    @Column(name = "saldo_capital", nullable = false)
+    private BigDecimal saldoCapital;
     
     public PrestamoCuotaEntity() {
         this.pk = new PrestamoCuotaPkEntity();
@@ -98,6 +101,14 @@ public class PrestamoCuotaEntity {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public BigDecimal getSaldoCapital() {
+        return saldoCapital;
+    }
+
+    public void setSaldoCapital(BigDecimal saldoCapital) {
+        this.saldoCapital = saldoCapital;
     }
 
     @Override

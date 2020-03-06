@@ -51,6 +51,7 @@ public class PrestamoCuotaService {
         prestamoCuotaEntity.setCapital(prestamoCuota.getCapital());
         prestamoCuotaEntity.setInteres(prestamoCuota.getInteres());
         prestamoCuotaEntity.setTotal(prestamoCuota.getCapital().add(prestamoCuota.getInteres()));
+        prestamoCuotaEntity.setSaldoCapital(prestamoCuota.getSaldoCapital());
         
         prestamoCuotaRepository.save(prestamoCuotaEntity);
         

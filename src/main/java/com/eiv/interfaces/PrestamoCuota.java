@@ -12,5 +12,6 @@ public interface PrestamoCuota {
     public BigDecimal getCapital();
 
     public BigDecimal getInteres();
-
+    
+    public BigDecimal getSaldoCapital();
 }
