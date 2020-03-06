@@ -45,7 +45,7 @@ public class ConversorTeParaTnaTest {
                     tasa.setTipo(TipoTasaFinancieraEnum.TE);
                     tasa.setValor(tasaOrigen);
                 })
-                .calcular(TipoTasaFinancieraEnum.TNA, moduloDestino, dias)
+                .convertir(TipoTasaFinancieraEnum.TNA, moduloDestino, dias)
                 .resultado()
                 .ifPresent(tasa -> {
                     assertThat(tasa.getValor().compareTo(tasaEsperada), Is.is(0));         

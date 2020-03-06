@@ -28,7 +28,7 @@ public class ConversorTasaFinanciera {
         return this;
     }
     
-    public ConversorTasaFinanciera calcular(
+    public ConversorTasaFinanciera convertir(
             TipoTasaFinancieraEnum tipoTasaDestino, Long moduloDestino, Long dias) {
         
         // PASO 1 - CALCULAR LA RAZON

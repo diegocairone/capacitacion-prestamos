@@ -44,7 +44,7 @@ public class ConversorTeParaTnvTest {
                     tasa.setTipo(TipoTasaFinancieraEnum.TE);
                     tasa.setValor(tasaOrigen);
                 })
-                .calcular(TipoTasaFinancieraEnum.TNV, moduloDestino, dias)
+                .convertir(TipoTasaFinancieraEnum.TNV, moduloDestino, dias)
                 .resultado()
                 .ifPresent(tasa -> {
                     assertThat(tasa.getValor().compareTo(tasaEsperada), Is.is(0));         
