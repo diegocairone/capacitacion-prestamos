@@ -8,6 +8,7 @@ public class ConversorTasaFinanciera {
 
     private TasaFinanciera tasaOrigen;
     private TasaFinanciera tasaDestino;
+    private BigDecimal razon;
     
     public ConversorTasaFinanciera() {
         this.tasaOrigen = new TasaFinanciera();
@@ -45,10 +46,21 @@ public class ConversorTasaFinanciera {
         this.tasaDestino.setModulo(moduloDestino);
         this.tasaDestino.setTipo(tipoTasaDestino);
         
+        this.razon = razon;
+        
         return this;
     }
     
-    public Optional<TasaFinanciera> resultado() {
-        return tasaDestino == null ? Optional.empty() : Optional.of(tasaDestino);
+    public ConversorTasaFinanciera razon(Consumer<BigDecimal> consumer) {
+        consumer.accept(razon);
+        return this;
     }
+
+    public Optional<BigDecimal> getRazon() {
+        return razon == null ? Optional.empty() : Optional.of(razon);
+    }    
+    
+    public Optional<TasaFinanciera> getResultado() {
+        return tasaDestino == null ? Optional.empty() : Optional.of(tasaDestino);
+    }    
 }

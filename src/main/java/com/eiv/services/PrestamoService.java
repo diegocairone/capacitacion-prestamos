@@ -173,7 +173,7 @@ public class PrestamoService {
                     tf.setTipo(TipoTasaFinancieraEnum.TE);
                     tf.setValor(tasa);
                 }).convertir(TipoTasaFinancieraEnum.TNV, modulo, dias)
-                .resultado();
+                .getResultado();
         
         return resultado.get().getValor();
     }
