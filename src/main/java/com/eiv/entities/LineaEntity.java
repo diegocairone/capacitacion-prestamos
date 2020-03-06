@@ -65,7 +65,7 @@ public class LineaEntity {
     @OneToOne
     @JoinColumns({
             @JoinColumn(
-                    name = "usuario_tipo_documento", referencedColumnName = "id_tipodocumento", 
+                    name = "usuario_tipo_documento_id", referencedColumnName = "id_tipodocumento", 
                     nullable = false),
             @JoinColumn(
                     name = "usuario_numero_documento", referencedColumnName = "numero_documento", 

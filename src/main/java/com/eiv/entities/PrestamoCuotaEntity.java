@@ -26,7 +26,7 @@ public class PrestamoCuotaEntity {
             nullable = false, insertable = false, updatable = false)
     private PrestamoEntity prestamo;
     
-    @Column(name = "cuota", nullable = false, insertable = false, updatable = false)
+    @Column(name = "nro_cuota", nullable = false, insertable = false, updatable = false)
     private Integer cuota;
     
     @Column(name = "fecha_vencimiento", nullable = false)
@@ -35,7 +35,7 @@ public class PrestamoCuotaEntity {
     @Column(name = "importe_capital", nullable = false)
     private BigDecimal capital;
     
-    @Column(name = "importe_interes", nullable = false)
+    @Column(name = "importe_intereses", nullable = false)
     private BigDecimal interes;
     
     @Column(name = "importe_total", nullable = false)
@@ -61,6 +61,7 @@ public class PrestamoCuotaEntity {
 
     public void setPrestamo(PrestamoEntity prestamo) {
         this.prestamo = prestamo;
+        this.pk.setPrestamoId(prestamo.getId());
     }
 
     public Integer getCuota() {
@@ -69,6 +70,7 @@ public class PrestamoCuotaEntity {
 
     public void setCuota(Integer cuota) {
         this.cuota = cuota;
+        this.pk.setCuota(cuota);
     }
 
     public LocalDate getFechaVencimiento() {

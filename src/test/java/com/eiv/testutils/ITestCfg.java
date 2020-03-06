@@ -35,7 +35,7 @@ public abstract class ITestCfg {
         LocalContainerEntityManagerFactoryBean factory = 
                 new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("com.eiv.entities");
+        factory.setPackagesToScan("com.eiv.entities", "com.eiv.converters");
         factory.setDataSource(getDataSource());
         factory.setJpaPropertyMap(jpaProperties);
         return factory;

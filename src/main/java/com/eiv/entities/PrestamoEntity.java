@@ -11,6 +11,7 @@ import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.eiv.enums.SistemaAmortizacionEnum;
 import com.eiv.enums.UnidadAmortizacionEnum;
 
 @Entity
@@ -34,7 +35,10 @@ public class PrestamoEntity {
     @OneToOne
     @JoinColumn(name = "linea_id", referencedColumnName = "linea_id", nullable = false)
     private LineaEntity linea;
-    
+
+    @Column(name = "sistema_amortizacion", nullable = false, length = 1)
+    private SistemaAmortizacionEnum sistemaAmortizacion;
+
     @Column(name = "fecha_alta", nullable = false)
     private LocalDate fechaAlta;
 
@@ -65,7 +69,7 @@ public class PrestamoEntity {
     @OneToOne
     @JoinColumns({
             @JoinColumn(
-                    name = "usuario_tipo_documento", referencedColumnName = "id_tipodocumento", 
+                    name = "usuario_tipo_documento_id", referencedColumnName = "id_tipodocumento", 
                     nullable = false),
             @JoinColumn(
                     name = "usuario_numero_documento", referencedColumnName = "numero_documento", 
@@ -97,6 +101,14 @@ public class PrestamoEntity {
 
     public void setLinea(LineaEntity linea) {
         this.linea = linea;
+    }
+
+    public SistemaAmortizacionEnum getSistemaAmortizacion() {
+        return sistemaAmortizacion;
+    }
+
+    public void setSistemaAmortizacion(SistemaAmortizacionEnum sistemaAmortizacion) {
+        this.sistemaAmortizacion = sistemaAmortizacion;
     }
 
     public LocalDate getFechaAlta() {
