@@ -5,7 +5,7 @@ import javax.persistence.Converter;
 
 import com.eiv.enums.TasaTipoEnum;
 
-@Converter
+@Converter(autoApply = true)
 public class TasaTipoConverter implements AttributeConverter<TasaTipoEnum, Character> {
 
     @Override

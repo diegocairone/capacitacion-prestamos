@@ -5,7 +5,7 @@ import javax.persistence.Converter;
 
 import com.eiv.enums.RegionEnum;
 
-@Converter
+@Converter(autoApply = true)
 public class RegionConverter implements AttributeConverter<RegionEnum, String> {
 
     @Override

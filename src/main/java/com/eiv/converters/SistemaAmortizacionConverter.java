@@ -5,7 +5,7 @@ import javax.persistence.Converter;
 
 import com.eiv.enums.SistemaAmortizacionEnum;
 
-@Converter
+@Converter(autoApply = true)
 public class SistemaAmortizacionConverter 
         implements AttributeConverter<SistemaAmortizacionEnum, Character> {
 

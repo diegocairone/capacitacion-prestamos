@@ -5,7 +5,7 @@ import javax.persistence.Converter;
 
 import com.eiv.enums.GeneroEnum;
 
-@Converter
+@Converter(autoApply = true)
 public class GeneroConverter implements AttributeConverter<GeneroEnum, Character> {
 
     @Override
