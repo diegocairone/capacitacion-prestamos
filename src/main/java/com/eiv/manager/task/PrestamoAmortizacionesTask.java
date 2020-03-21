@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.eiv.entities.PrestamoEntity;
 import com.eiv.interfaces.PrestamoCuota;
-import com.eiv.services.bll.PrestamoDesarrolloBean;
-import com.eiv.services.bll.PrestamoDesarrolloBeanFactory;
+import com.eiv.service.PrestamoDesarrolloService;
+import com.eiv.service.PrestamoDesarrolloServiceFactory;
 
 public class PrestamoAmortizacionesTask implements PrestamoTask<List<PrestamoCuota>> {
 
@@ -26,8 +26,8 @@ public class PrestamoAmortizacionesTask implements PrestamoTask<List<PrestamoCuo
     @Override
     public List<PrestamoCuota> execute() {
                 
-        PrestamoDesarrolloBean prestamoDesarrolloBean = 
-                PrestamoDesarrolloBeanFactory.create(
+        PrestamoDesarrolloService prestamoDesarrolloBean = 
+                PrestamoDesarrolloServiceFactory.create(
                         prestamo.getLinea().getSistemaAmortizacion());
         
         List<PrestamoCuota> prestamoCuotas = prestamoDesarrolloBean.calcular(prestamo);

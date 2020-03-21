@@ -8,7 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.eiv.entities.ProvinciaEntity;
 import com.eiv.enums.RegionEnum;
-import com.eiv.services.dal.ProvinciaService;
+import com.eiv.repository.ProvinciaRepository;
 
 public class App {
 
@@ -33,5 +33,5 @@ public class App {
         });
     }
     
-    @Autowired ProvinciaService provinciaService;
+    @Autowired ProvinciaRepository provinciaService;
 }

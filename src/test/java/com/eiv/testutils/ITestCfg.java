@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "com.eiv.repositories")
+@EnableJpaRepositories(basePackages = "com.eiv.dao")
 public abstract class ITestCfg {
 
     public abstract DataSource getDataSource();

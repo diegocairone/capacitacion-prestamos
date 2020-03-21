@@ -3,11 +3,11 @@ package com.eiv.manager.task;
 import com.eiv.entities.PrestamoCuotaEntity;
 import com.eiv.entities.PrestamoEntity;
 import com.eiv.interfaces.PrestamoCuota;
-import com.eiv.services.dal.PrestamoCuotaService;
+import com.eiv.repository.PrestamoCuotaRepository;
 
 public class PrestamoCuotaAltaTask implements PrestamoTask<PrestamoCuotaEntity> {
 
-    private PrestamoCuotaService prestamoCuotaService;
+    private PrestamoCuotaRepository prestamoCuotaService;
     private PrestamoEntity prestamoEntity;
     private PrestamoCuota prestamoCuota;
 
@@ -16,7 +16,7 @@ public class PrestamoCuotaAltaTask implements PrestamoTask<PrestamoCuotaEntity> 
     }
        
     public PrestamoCuotaAltaTask setPrestamoCuotaService(
-            PrestamoCuotaService prestamoCuotaService) {
+            PrestamoCuotaRepository prestamoCuotaService) {
         this.prestamoCuotaService = prestamoCuotaService;
         return this;
     }

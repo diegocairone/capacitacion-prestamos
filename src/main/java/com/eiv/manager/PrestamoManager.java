@@ -15,14 +15,14 @@ import com.eiv.manager.task.PrestamoAmortizacionesTask;
 import com.eiv.manager.task.PrestamoCuotaAltaTask;
 import com.eiv.manager.task.PrestamoSumatoriaTask;
 import com.eiv.manager.task.PrestamoTaskExecutor;
-import com.eiv.services.dal.PrestamoCuotaService;
-import com.eiv.services.dal.PrestamoService;
+import com.eiv.repository.PrestamoCuotaRepository;
+import com.eiv.repository.PrestamoRepository;
 
 @Component
 public class PrestamoManager {
 
-    @Autowired private PrestamoService prestamoService;
-    @Autowired private PrestamoCuotaService prestamoCuotaService;
+    @Autowired private PrestamoRepository prestamoService;
+    @Autowired private PrestamoCuotaRepository prestamoCuotaService;
     
     @Transactional
     public PrestamoEntity solicitar(Prestamo prestamo, UsuarioEntity usuario) {
