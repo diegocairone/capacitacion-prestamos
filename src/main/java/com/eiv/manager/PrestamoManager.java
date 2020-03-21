@@ -38,7 +38,14 @@ public class PrestamoManager {
         
         PrestamoAmortizacionesTask amortizacionesTask = PrestamoAmortizacionesTask
                 .newInstance()
-                .setPrestamo(prestamoEntity);
+                .setAmortizacionPeriodo(prestamoEntity.getAmortizacionPeriodo())
+                .setAmortizacionSistema(prestamoEntity.getSistemaAmortizacion())
+                .setAmortizacionUnidad(prestamoEntity.getAmortizacionUnidad())
+                .setCapitalPrestado(prestamoEntity.getCapitalPrestado())
+                .setFechaPrimerVto(prestamoEntity.getFechaPrimerVto())
+                .setTasaEfectiva(prestamoEntity.getTasaEfectiva())
+                .setTasaModulo(prestamoEntity.getTasaModulo())
+                .setTotalCuotas(prestamoEntity.getTotalCuotas());
         
         List<PrestamoCuota> prestamoCuotas = executor.run(amortizacionesTask);
         

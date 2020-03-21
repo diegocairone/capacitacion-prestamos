@@ -3,7 +3,6 @@ package com.eiv.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.eiv.entities.PrestamoEntity;
 import com.eiv.enums.UnidadAmortizacionEnum;
 import com.eiv.interfaces.PrestamoCuota;
 
@@ -11,11 +10,11 @@ public abstract class PrestamoDesarrolloBaseService {
     
     protected static final int ESCALA = 6;
 
-    protected int prdAmortDias(PrestamoEntity prestamo) {
+    protected int prdAmortDias(PrestamoDesarrolloParam params) {
 
-        int factorPrdAmort = prestamo.getAmortizacionUnidad()
+        int factorPrdAmort = params.getAmortizacionUnidad()
                 .equals(UnidadAmortizacionEnum.DIA) ? 1 : 30;
-        int prdAmort = factorPrdAmort * prestamo.getAmortizacionPeriodo();
+        int prdAmort = factorPrdAmort * params.getAmortizacionPeriodo();
         
         return prdAmort;
     }

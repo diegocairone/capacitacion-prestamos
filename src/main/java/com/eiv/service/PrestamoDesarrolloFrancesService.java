@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.eiv.entities.PrestamoEntity;
 import com.eiv.interfaces.PrestamoCuota;
 import com.eiv.maths.ctf.ConversorTasaFinanciera;
 import com.eiv.maths.ctf.TipoTasaFinancieraEnum;
@@ -19,30 +18,30 @@ public class PrestamoDesarrolloFrancesService
         extends PrestamoDesarrolloBaseService implements PrestamoDesarrolloService {
     
     @Override
-    public List<PrestamoCuota> calcular(PrestamoEntity prestamo) {
+    public List<PrestamoCuota> calcular(PrestamoDesarrolloParam params) {
         
-        final long prdAmort = prdAmortDias(prestamo);
+        final long prdAmort = prdAmortDias(params);
         final List<PrestamoCuota> prestamoCuotas = new ArrayList<PrestamoCuota>();
  
         ConversorTasaFinanciera conversor = new ConversorTasaFinanciera();
         
         Optional<BigDecimal> optional = conversor
                 .datosIniciales(tf -> {
-                    tf.setModulo((long)prestamo.getTasaModulo());
+                    tf.setModulo((long)params.getTasaModulo());
                     tf.setTipo(TipoTasaFinancieraEnum.TE);
-                    tf.setValor(prestamo.getTasaEfectiva());
+                    tf.setValor(params.getTasaEfectiva());
                 })
-                .convertir(TipoTasaFinancieraEnum.TNV, (long)prestamo.getTasaModulo(), prdAmort)
+                .convertir(TipoTasaFinancieraEnum.TNV, (long)params.getTasaModulo(), prdAmort)
                 .getRazon();
         
         final BigDecimal razon = optional.get();
         final BigDecimal vc = calculoCuota(
-                prestamo.getCapitalPrestado(), razon, prestamo.getTotalCuotas());
+                params.getCapitalPrestado(), razon, params.getTotalCuotas());
         
         // DESARROLLO CUOTAS - PRIMER CUOTA
 
-        LocalDate fechaVencimiento = prestamo.getFechaPrimerVto();
-        BigDecimal saldoCapital = prestamo.getCapitalPrestado();
+        LocalDate fechaVencimiento = params.getFechaPrimerVto();
+        BigDecimal saldoCapital = params.getCapitalPrestado();
         BigDecimal interes = saldoCapital.multiply(razon).setScale(2, RoundingMode.HALF_UP);
         BigDecimal capital = vc.subtract(interes);
         BigDecimal nuevoSaldoCapital = saldoCapital.subtract(capital);
@@ -57,7 +56,7 @@ public class PrestamoDesarrolloFrancesService
         
         prestamoCuotas.add(prestamoPrimeraCuota);
         
-        for (int i = 1; i < prestamo.getTotalCuotas(); i++) {
+        for (int i = 1; i < params.getTotalCuotas(); i++) {
 
             fechaVencimiento = fechaVencimiento.plusDays(prdAmort);
             saldoCapital = nuevoSaldoCapital;

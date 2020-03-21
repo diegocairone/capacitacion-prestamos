@@ -7,32 +7,60 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
-import com.eiv.entities.PrestamoEntity;
+import com.eiv.enums.SistemaAmortizacionEnum;
 import com.eiv.enums.UnidadAmortizacionEnum;
 import com.eiv.interfaces.PrestamoCuota;
-import com.eiv.service.PrestamoDesarrolloFrancesService;
 
 public class PrestamoDesarrolloFrancesServiceTest {
 
     @Test
     public void givenPrestamoEntity_thenTblAmort12Cuotas() {
         
-        PrestamoEntity prestamoEntity = new PrestamoEntity();
-        
-        prestamoEntity.setId(0L);
-        prestamoEntity.setPersona(null);
-        prestamoEntity.setLinea(null);
-        prestamoEntity.setFechaAlta(LocalDate.now());
-        prestamoEntity.setFechaPrimerVto(LocalDate.now().plusDays(30));
-        prestamoEntity.setTasaEfectiva(BigDecimal.valueOf(35));
-        prestamoEntity.setTasaModulo(365);
-        prestamoEntity.setAmortizacionPeriodo(30);
-        prestamoEntity.setAmortizacionUnidad(UnidadAmortizacionEnum.DIA);
-        prestamoEntity.setCapitalPrestado(BigDecimal.valueOf(100000));
-        prestamoEntity.setTotalCuotas(12);
+        PrestamoDesarrolloParam prestamo = new PrestamoDesarrolloParam() {
+            
+            @Override
+            public Integer getTotalCuotas() {
+                return 12;
+            }
+            
+            @Override
+            public Integer getTasaModulo() {
+                return 365;
+            }
+            
+            @Override
+            public BigDecimal getTasaEfectiva() {
+                return BigDecimal.valueOf(35);
+            }
+            
+            @Override
+            public LocalDate getFechaPrimerVto() {
+                return LocalDate.now().plusDays(30);
+            }
+            
+            @Override
+            public BigDecimal getCapitalPrestado() {
+                return BigDecimal.valueOf(100000);
+            }
+            
+            @Override
+            public UnidadAmortizacionEnum getAmortizacionUnidad() {
+                return UnidadAmortizacionEnum.DIA;
+            }
+            
+            @Override
+            public Integer getAmortizacionPeriodo() {
+                return 30;
+            }
+
+            @Override
+            public SistemaAmortizacionEnum getAmortizacionSistema() {
+                return SistemaAmortizacionEnum.SISTEMA_FRANCES;
+            }
+        };
         
         PrestamoDesarrolloFrancesService bean = new PrestamoDesarrolloFrancesService();
-        List<PrestamoCuota> prestamoCuotas = bean.calcular(prestamoEntity);
+        List<PrestamoCuota> prestamoCuotas = bean.calcular(prestamo);
         
         Assertions.assertThat(prestamoCuotas).hasSize(12);
         
