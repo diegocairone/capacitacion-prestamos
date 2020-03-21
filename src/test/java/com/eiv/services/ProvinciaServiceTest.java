@@ -19,6 +19,7 @@ import com.eiv.enums.RegionEnum;
 import com.eiv.exceptions.NotFoundServiceException;
 import com.eiv.interfaces.Provincia;
 import com.eiv.repositories.ProvinciaRepository;
+import com.eiv.services.dal.ProvinciaService;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 @RunWith(MockitoJUnitRunner.class)

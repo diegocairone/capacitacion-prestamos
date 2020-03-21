@@ -18,6 +18,7 @@ import com.eiv.entities.TipoDocumentoEntity;
 import com.eiv.exceptions.NotFoundServiceException;
 import com.eiv.interfaces.TipoDocumento;
 import com.eiv.repositories.TipoDocumentoRepository;
+import com.eiv.services.dal.TipoDocumentoService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TipoDocumentoServiceTest {

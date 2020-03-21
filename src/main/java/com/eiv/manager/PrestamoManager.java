@@ -1,6 +1,5 @@
-package com.eiv.prestamo.managers;
+package com.eiv.manager;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,13 @@ import com.eiv.entities.PrestamoEntity;
 import com.eiv.entities.UsuarioEntity;
 import com.eiv.interfaces.Prestamo;
 import com.eiv.interfaces.PrestamoCuota;
-import com.eiv.services.PrestamoCuotaService;
-import com.eiv.services.PrestamoService;
+import com.eiv.manager.task.PrestamoAltaTask;
+import com.eiv.manager.task.PrestamoAmortizacionesTask;
+import com.eiv.manager.task.PrestamoCuotaAltaTask;
+import com.eiv.manager.task.PrestamoSumatoriaTask;
+import com.eiv.manager.task.PrestamoTaskExecutor;
+import com.eiv.services.dal.PrestamoCuotaService;
+import com.eiv.services.dal.PrestamoService;
 
 @Component
 public class PrestamoManager {
@@ -21,7 +25,7 @@ public class PrestamoManager {
     @Autowired private PrestamoCuotaService prestamoCuotaService;
     
     @Transactional
-    public PrestamoEntity nuevo(Prestamo prestamo, UsuarioEntity usuario) {
+    public PrestamoEntity solicitar(Prestamo prestamo, UsuarioEntity usuario) {
         
         final PrestamoTaskExecutor executor = new PrestamoTaskExecutor();
         
@@ -48,11 +52,11 @@ public class PrestamoManager {
             executor.run(cuotaAltaTask);
         });
         
-        BigDecimal totalIntereses = prestamoCuotas.stream()
-                .map(PrestamoCuota::getInteres)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        PrestamoSumatoriaTask sumatoriaTask = PrestamoSumatoriaTask.newInstance()
+                .setPrestamoEntity(prestamoEntity)
+                .setPrestamoCuotas(prestamoCuotas);
         
-        prestamoEntity.setTotalIntereses(totalIntereses);
+        executor.run(sumatoriaTask);
         
         return prestamoEntity;
     }

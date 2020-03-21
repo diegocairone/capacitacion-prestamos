@@ -1,4 +1,4 @@
-package com.eiv.prestamo.beans;
+package com.eiv.services.bll;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

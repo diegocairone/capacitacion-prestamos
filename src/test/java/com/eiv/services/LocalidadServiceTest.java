@@ -21,6 +21,7 @@ import com.eiv.exceptions.NotFoundServiceException;
 import com.eiv.interfaces.Localidad;
 import com.eiv.repositories.LocalidadRepository;
 import com.eiv.repositories.ProvinciaRepository;
+import com.eiv.services.dal.LocalidadService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LocalidadServiceTest {

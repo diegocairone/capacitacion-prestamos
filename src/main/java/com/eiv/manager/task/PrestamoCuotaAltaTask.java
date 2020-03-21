@@ -1,9 +1,9 @@
-package com.eiv.prestamo.managers;
+package com.eiv.manager.task;
 
 import com.eiv.entities.PrestamoCuotaEntity;
 import com.eiv.entities.PrestamoEntity;
 import com.eiv.interfaces.PrestamoCuota;
-import com.eiv.services.PrestamoCuotaService;
+import com.eiv.services.dal.PrestamoCuotaService;
 
 public class PrestamoCuotaAltaTask implements PrestamoTask<PrestamoCuotaEntity> {
 

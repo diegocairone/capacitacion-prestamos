@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.eiv.entities.LocalidadEntity;
 import com.eiv.interfaces.Localidad;
 import com.eiv.repositories.LocalidadRepository;
+import com.eiv.services.dal.LocalidadService;
 import com.eiv.testutils.ITestCfg;
 
 @RunWith(SpringJUnit4ClassRunner.class)

@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.eiv.entities.TipoDocumentoEntity;
 import com.eiv.interfaces.TipoDocumento;
 import com.eiv.repositories.TipoDocumentoRepository;
+import com.eiv.services.dal.TipoDocumentoService;
 import com.eiv.testutils.ITestCfg;
 
 @RunWith(SpringJUnit4ClassRunner.class)

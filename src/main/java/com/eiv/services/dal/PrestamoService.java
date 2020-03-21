@@ -1,4 +1,4 @@
-package com.eiv.services;
+package com.eiv.services.dal;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -144,7 +144,7 @@ public class PrestamoService {
         prestamoEntity.setAmortizacionPeriodo(prestamo.getAmortizacionPeriodo());
         prestamoEntity.setAmortizacionUnidad(prestamo.getAmortizacionUnidad());
         prestamoEntity.setCapitalPrestado(prestamo.getCapitalPrestado());
-        prestamoEntity.setTotalIntereses(BigDecimal.ZERO);
+        prestamoEntity.setTotalIntereses(prestamo.getTotalIntereses());
         prestamoEntity.setTotalCuotas(prestamo.getTotalCuotas());
         prestamoEntity.setUsuario(usuarioEntity);
                 

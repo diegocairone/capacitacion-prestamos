@@ -20,6 +20,7 @@ import com.eiv.entities.PrestamoEntity;
 import com.eiv.entities.UsuarioEntity;
 import com.eiv.enums.UnidadAmortizacionEnum;
 import com.eiv.interfaces.Prestamo;
+import com.eiv.manager.PrestamoManager;
 import com.eiv.repositories.UsuarioRepository;
 import com.eiv.testutils.ITestCfg;
 
@@ -83,13 +84,18 @@ public class PrestamoManagerIT {
             public Integer getAmortizacionPeriodo() {
                 return 30;
             }
+
+            @Override
+            public BigDecimal getTotalIntereses() {
+                return BigDecimal.ZERO;
+            }
         };
         
         final UsuarioEntity usuarioEntity = usuarioRepository
                 .findById(new PersonaPkEntity(1L, 1L))
                 .get();
         
-        PrestamoEntity prestamoEntity = prestamoManager.nuevo(prestamo, usuarioEntity);
+        PrestamoEntity prestamoEntity = prestamoManager.solicitar(prestamo, usuarioEntity);
         Assertions.assertThat(prestamoEntity).isNotNull();
         
         System.out.println(prestamoEntity);

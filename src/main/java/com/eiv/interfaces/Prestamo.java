@@ -24,6 +24,8 @@ public interface Prestamo {
     public UnidadAmortizacionEnum getAmortizacionUnidad();
 
     public BigDecimal getCapitalPrestado();
+    
+    public BigDecimal getTotalIntereses();
 
     public Integer getTotalCuotas();
 

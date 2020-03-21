@@ -1,9 +1,9 @@
-package com.eiv.prestamo.managers;
+package com.eiv.manager.task;
 
 import com.eiv.entities.PrestamoEntity;
 import com.eiv.entities.UsuarioEntity;
 import com.eiv.interfaces.Prestamo;
-import com.eiv.services.PrestamoService;
+import com.eiv.services.dal.PrestamoService;
 
 public class PrestamoAltaTask implements PrestamoTask<PrestamoEntity> {
 

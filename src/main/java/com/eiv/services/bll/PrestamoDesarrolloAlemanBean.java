@@ -1,4 +1,4 @@
-package com.eiv.prestamo.beans;
+package com.eiv.services.bll;
 
 import java.util.List;
 

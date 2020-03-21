@@ -1,4 +1,4 @@
-package com.eiv.prestamo.managers;
+package com.eiv.manager.task;
 
 public interface PrestamoTask<T> {
 

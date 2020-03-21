@@ -20,6 +20,7 @@ import com.eiv.entities.ProvinciaEntity;
 import com.eiv.enums.RegionEnum;
 import com.eiv.interfaces.Provincia;
 import com.eiv.repositories.ProvinciaRepository;
+import com.eiv.services.dal.ProvinciaService;
 import com.eiv.testutils.ITestCfg;
 
 @RunWith(SpringJUnit4ClassRunner.class)

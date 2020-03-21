@@ -1,11 +1,11 @@
-package com.eiv.prestamo.managers;
+package com.eiv.manager.task;
 
 import java.util.List;
 
 import com.eiv.entities.PrestamoEntity;
 import com.eiv.interfaces.PrestamoCuota;
-import com.eiv.prestamo.beans.PrestamoDesarrolloBean;
-import com.eiv.prestamo.beans.PrestamoDesarrolloBeanFactory;
+import com.eiv.services.bll.PrestamoDesarrolloBean;
+import com.eiv.services.bll.PrestamoDesarrolloBeanFactory;
 
 public class PrestamoAmortizacionesTask implements PrestamoTask<List<PrestamoCuota>> {
 
