@@ -26,16 +26,7 @@ import com.eiv.repository.LocalidadRepository;
 @RunWith(MockitoJUnitRunner.class)
 public class LocalidadRepositoryTest {
 
-    @InjectMocks 
-    private LocalidadRepository localidadService;
-    
-    @Mock private LocalidadDao localidadRepository;
-    @Mock private ProvinciaDao provinciaRepository;
-    
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
+    @InjectMocks private LocalidadRepository localidadRepository;
 
     @Test
     public void givenLocalidadForm_whenCreate_thenNewLocalidad() {
@@ -64,11 +55,11 @@ public class LocalidadRepositoryTest {
         provinciaMock.setNombre("ORIGEN");
         provinciaMock.setRegion(RegionEnum.NORDESTE);
         
-        Mockito.when(provinciaRepository.findById(1L)).thenReturn(
+        Mockito.when(provinciaDao.findById(1L)).thenReturn(
                 Optional.of(provinciaMock));
         
         
-        LocalidadEntity localidadEntity = localidadService.save(localidad);
+        LocalidadEntity localidadEntity = localidadRepository.save(localidad);
         
         assertThat(localidadEntity.getNombre()).isEqualTo(
                 localidad.getNombre());
@@ -77,8 +68,8 @@ public class LocalidadRepositoryTest {
         assertThat(localidadEntity.getProvincia().getId()).isEqualTo(
                 localidad.getProvinciaId());
                 
-        Mockito.verify(provinciaRepository).findById(Mockito.anyLong());
-        Mockito.verify(localidadRepository).save(Mockito.any(LocalidadEntity.class));
+        Mockito.verify(provinciaDao).findById(Mockito.anyLong());
+        Mockito.verify(localidadDao).save(Mockito.any(LocalidadEntity.class));
     }
     
     @Test
@@ -103,14 +94,14 @@ public class LocalidadRepositoryTest {
         };
         
         Throwable throwable = Assertions.catchThrowable(() -> {
-            localidadService.save(localidad);
+            localidadRepository.save(localidad);
         });
         
         assertThat(throwable).isInstanceOf(NotFoundServiceException.class);
                 
-        Mockito.verify(provinciaRepository).findById(
+        Mockito.verify(provinciaDao).findById(
                 Mockito.anyLong());
-        Mockito.verify(localidadRepository, Mockito.never()).save(
+        Mockito.verify(localidadDao, Mockito.never()).save(
                 Mockito.any(LocalidadEntity.class));
     }
 
@@ -147,7 +138,7 @@ public class LocalidadRepositoryTest {
         provinciaDestino.setNombre("ORIGEN");
         provinciaDestino.setRegion(RegionEnum.NORDESTE);
         
-        Mockito.when(provinciaRepository.findById(2L)).thenReturn(
+        Mockito.when(provinciaDao.findById(2L)).thenReturn(
                 Optional.of(provinciaDestino));
         
 
@@ -158,11 +149,11 @@ public class LocalidadRepositoryTest {
         expected.setCodigoPostal("CP");
         expected.setProvincia(provinciaActual);
         
-        Mockito.when(localidadRepository.findById(1L)).thenReturn(
+        Mockito.when(localidadDao.findById(1L)).thenReturn(
                 Optional.of(expected));
         
         
-        LocalidadEntity localidadEntity = localidadService.save(1L, localidad);
+        LocalidadEntity localidadEntity = localidadRepository.save(1L, localidad);
         
         assertThat(localidadEntity.getNombre()).isEqualTo(
                 localidad.getNombre());
@@ -171,9 +162,9 @@ public class LocalidadRepositoryTest {
         assertThat(localidadEntity.getProvincia().getId()).isEqualTo(
                 localidad.getProvinciaId());
                 
-        Mockito.verify(localidadRepository).findById(Mockito.anyLong());
-        Mockito.verify(provinciaRepository).findById(Mockito.anyLong());
-        Mockito.verify(localidadRepository).save(Mockito.any(LocalidadEntity.class));
+        Mockito.verify(localidadDao).findById(Mockito.anyLong());
+        Mockito.verify(provinciaDao).findById(Mockito.anyLong());
+        Mockito.verify(localidadDao).save(Mockito.any(LocalidadEntity.class));
     }
 
     @Test
@@ -210,11 +201,11 @@ public class LocalidadRepositoryTest {
         expected.setCodigoPostal("CP");
         expected.setProvincia(provinciaActual);
         
-        Mockito.when(localidadRepository.findById(1L)).thenReturn(
+        Mockito.when(localidadDao.findById(1L)).thenReturn(
                 Optional.of(expected));
         
         
-        LocalidadEntity localidadEntity = localidadService.save(1L, localidad);
+        LocalidadEntity localidadEntity = localidadRepository.save(1L, localidad);
         
         assertThat(localidadEntity.getNombre()).isEqualTo(
                 localidad.getNombre());
@@ -223,9 +214,9 @@ public class LocalidadRepositoryTest {
         assertThat(localidadEntity.getProvincia().getId()).isEqualTo(
                 localidad.getProvinciaId());
         
-        Mockito.verify(localidadRepository).findById(Mockito.anyLong());
-        Mockito.verify(provinciaRepository, Mockito.never()).findById(Mockito.anyLong());
-        Mockito.verify(localidadRepository).save(Mockito.any(LocalidadEntity.class));
+        Mockito.verify(localidadDao).findById(Mockito.anyLong());
+        Mockito.verify(provinciaDao, Mockito.never()).findById(Mockito.anyLong());
+        Mockito.verify(localidadDao).save(Mockito.any(LocalidadEntity.class));
     }
 
     @Test
@@ -250,18 +241,18 @@ public class LocalidadRepositoryTest {
         };
 
         Throwable throwable = Assertions.catchThrowable(() -> {
-            localidadService.save(1L, localidad);
+            localidadRepository.save(1L, localidad);
         });
         
         assertThat(throwable)
                 .isInstanceOf(NotFoundServiceException.class)
                 .hasMessageContaining("LOCALIDAD");
                 
-        Mockito.verify(localidadRepository).findById(
+        Mockito.verify(localidadDao).findById(
                 Mockito.anyLong());
-        Mockito.verify(provinciaRepository, Mockito.never()).findById(
+        Mockito.verify(provinciaDao, Mockito.never()).findById(
                 Mockito.anyLong());
-        Mockito.verify(localidadRepository, Mockito.never()).save(
+        Mockito.verify(localidadDao, Mockito.never()).save(
                 Mockito.any(LocalidadEntity.class));
     }
 
@@ -299,22 +290,22 @@ public class LocalidadRepositoryTest {
         expected.setCodigoPostal("CP");
         expected.setProvincia(provinciaExpected);
         
-        Mockito.when(localidadRepository.findById(1L)).thenReturn(
+        Mockito.when(localidadDao.findById(1L)).thenReturn(
                 Optional.of(expected));
         
         Throwable throwable = Assertions.catchThrowable(() -> {
-            localidadService.save(1L, localidad);
+            localidadRepository.save(1L, localidad);
         });
         
         assertThat(throwable)
                 .isInstanceOf(NotFoundServiceException.class)
                 .hasMessageContaining("PROVINCIA");
                 
-        Mockito.verify(localidadRepository).findById(
+        Mockito.verify(localidadDao).findById(
                 Mockito.anyLong());
-        Mockito.verify(provinciaRepository).findById(
+        Mockito.verify(provinciaDao).findById(
                 Mockito.anyLong());
-        Mockito.verify(localidadRepository, Mockito.never()).save(
+        Mockito.verify(localidadDao, Mockito.never()).save(
                 Mockito.any(LocalidadEntity.class));
     }
     
@@ -324,13 +315,20 @@ public class LocalidadRepositoryTest {
         final LocalidadEntity expected = new LocalidadEntity();
         expected.setId(1L);
         
-        Mockito.when(localidadRepository.findById(1L)).thenReturn(
+        Mockito.when(localidadDao.findById(1L)).thenReturn(
                 Optional.of(expected));
 
-        localidadService.delete(1L);
+        localidadRepository.delete(1L);
 
-        Mockito.verify(localidadRepository).findById(Mockito.anyLong());
-        Mockito.verify(localidadRepository).delete(Mockito.any(LocalidadEntity.class));
+        Mockito.verify(localidadDao).findById(Mockito.anyLong());
+        Mockito.verify(localidadDao).delete(Mockito.any(LocalidadEntity.class));
+    }
+    
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
+    @Mock private LocalidadDao localidadDao;
+    @Mock private ProvinciaDao provinciaDao;
 }

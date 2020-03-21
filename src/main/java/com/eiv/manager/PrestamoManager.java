@@ -21,8 +21,8 @@ import com.eiv.repository.PrestamoRepository;
 @Component
 public class PrestamoManager {
 
-    @Autowired private PrestamoRepository prestamoService;
-    @Autowired private PrestamoCuotaRepository prestamoCuotaService;
+    @Autowired private PrestamoRepository prestamoRepository;
+    @Autowired private PrestamoCuotaRepository prestamoCuotaRepository;
     
     @Transactional
     public PrestamoEntity solicitar(Prestamo prestamo, UsuarioEntity usuario) {
@@ -32,7 +32,7 @@ public class PrestamoManager {
         PrestamoAltaTask altaTask = PrestamoAltaTask.newInstance()
                 .setPrestamo(prestamo)
                 .setUsuario(usuario)
-                .setPrestamoService(prestamoService);
+                .setPrestamoRepository(prestamoRepository);
         
         PrestamoEntity prestamoEntity = executor.run(altaTask);
         
@@ -47,7 +47,7 @@ public class PrestamoManager {
             PrestamoCuotaAltaTask cuotaAltaTask = PrestamoCuotaAltaTask.newInstance()
                     .setPrestamoEntity(prestamoEntity)
                     .setPrestamoCuota(prestamoCuota)
-                    .setPrestamoCuotaService(prestamoCuotaService);
+                    .setPrestamoCuotaRepository(prestamoCuotaRepository);
                     
             executor.run(cuotaAltaTask);
         });

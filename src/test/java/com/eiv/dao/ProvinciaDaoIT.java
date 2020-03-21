@@ -23,18 +23,18 @@ import com.eiv.testutils.ITestCfg;
 @ContextConfiguration(classes = ProvinciaDaoIT.TestCfg.class)
 public class ProvinciaDaoIT {
 
-    @Autowired ProvinciaDao provinciaRepository;
+    @Autowired ProvinciaDao provinciaDao;
     
     @Test
     public void givenAllProvincias_whenFindById_thenFindProvincia() {
         
-        List<ProvinciaEntity> provinciaEntities = provinciaRepository.findAll();
+        List<ProvinciaEntity> provinciaEntities = provinciaDao.findAll();
         
         assertThat(provinciaEntities).hasSize(5);
         
         provinciaEntities.forEach(item -> {
             
-            Optional<ProvinciaEntity> optional = provinciaRepository.findById(item.getId());
+            Optional<ProvinciaEntity> optional = provinciaDao.findById(item.getId());
             
             assertThat(optional)
                     .contains(item);

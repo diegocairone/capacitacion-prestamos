@@ -26,7 +26,7 @@ import com.eiv.testutils.ITestCfg;
 @ContextConfiguration(classes = TipoDocumentoRepositoryIT.TestCfg.class)
 public class TipoDocumentoRepositoryIT {
 
-    @Autowired private TipoDocumentoRepository tipoDocumentoService;
+    @Autowired private TipoDocumentoRepository tipoDocumentoRepository;
     
     @Test
     @Transactional
@@ -50,8 +50,8 @@ public class TipoDocumentoRepositoryIT {
             }
         };
         
-        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoService.save(tipoDocumento);
-        Optional<TipoDocumentoEntity> expected = tipoDocumentoRepository.findById(
+        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoRepository.save(tipoDocumento);
+        Optional<TipoDocumentoEntity> expected = tipoDocumentoDao.findById(
                 tipoDocumentoEntity.getId());
 
         assertThat(expected).isNotEmpty();
@@ -87,8 +87,8 @@ public class TipoDocumentoRepositoryIT {
             }
         };
 
-        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoService.save(1L, tipoDocumento);
-        Optional<TipoDocumentoEntity> expected = tipoDocumentoRepository.findById(1L);
+        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoRepository.save(1L, tipoDocumento);
+        Optional<TipoDocumentoEntity> expected = tipoDocumentoDao.findById(1L);
 
         assertThat(expected).isNotEmpty();
         assertThat(expected.get()).isEqualTo(tipoDocumentoEntity);
@@ -105,12 +105,12 @@ public class TipoDocumentoRepositoryIT {
     @Transactional
     public void givenTipoDocumentoId_whenDelete_thenNoExisteTipoDocumento() {
         
-        Optional<TipoDocumentoEntity> expected = tipoDocumentoRepository.findById(1L);
+        Optional<TipoDocumentoEntity> expected = tipoDocumentoDao.findById(1L);
         assertThat(expected).isNotEmpty();
         
-        tipoDocumentoService.delete(1L);
+        tipoDocumentoRepository.delete(1L);
         
-        boolean exist = tipoDocumentoRepository.existsById(1L);
+        boolean exist = tipoDocumentoDao.existsById(1L);
         assertThat(exist).isFalse();
     }
 
@@ -127,5 +127,5 @@ public class TipoDocumentoRepositoryIT {
         }
     }
     
-    @Autowired private TipoDocumentoDao tipoDocumentoRepository;
+    @Autowired private TipoDocumentoDao tipoDocumentoDao;
 }

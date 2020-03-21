@@ -19,16 +19,16 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @Repository
 public class TipoDocumentoRepository {
 
-    @Autowired private TipoDocumentoDao tipoDocumentoRepository;
+    @Autowired private TipoDocumentoDao tipoDocumentoDao;
     
     @Transactional(readOnly = true)
     public Optional<TipoDocumentoEntity> findById(Long id) {
-        return tipoDocumentoRepository.findById(id);
+        return tipoDocumentoDao.findById(id);
     }
 
     @Transactional(readOnly = true)
     public List<TipoDocumentoEntity> findAll() {
-        return tipoDocumentoRepository.findAll();
+        return tipoDocumentoDao.findAll();
     }
 
     @Transactional(readOnly = true)
@@ -36,7 +36,7 @@ public class TipoDocumentoRepository {
             Function<QTipoDocumentoEntity, BooleanExpression> function) {
         QTipoDocumentoEntity tipoDocumentoQuery = QTipoDocumentoEntity.tipoDocumentoEntity;
         BooleanExpression exp = function.apply(tipoDocumentoQuery);
-        return (List<TipoDocumentoEntity>) tipoDocumentoRepository.findAll(exp);
+        return (List<TipoDocumentoEntity>) tipoDocumentoDao.findAll(exp);
     }
     
     @Transactional
@@ -47,7 +47,7 @@ public class TipoDocumentoRepository {
         tipoDocumentoEntity.setAbreviatura(tipoDocumento.getAbreviatura());
         tipoDocumentoEntity.setValidarComoCuit(tipoDocumento.getValidarComoCuit());
         
-        tipoDocumentoRepository.save(tipoDocumentoEntity);
+        tipoDocumentoDao.save(tipoDocumentoEntity);
         
         return tipoDocumentoEntity;
     }
@@ -55,14 +55,14 @@ public class TipoDocumentoRepository {
     @Transactional
     public TipoDocumentoEntity save(Long id, TipoDocumento tipoDocumento) {
 
-        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoRepository.findById(id)
+        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoDao.findById(id)
                 .orElseThrow(exceptionSupplier(id));
         
         tipoDocumentoEntity.setNombre(tipoDocumento.getNombre());
         tipoDocumentoEntity.setAbreviatura(tipoDocumento.getAbreviatura());
         tipoDocumentoEntity.setValidarComoCuit(tipoDocumento.getValidarComoCuit());
         
-        tipoDocumentoRepository.save(tipoDocumentoEntity);
+        tipoDocumentoDao.save(tipoDocumentoEntity);
         
         return tipoDocumentoEntity;
     }
@@ -70,10 +70,10 @@ public class TipoDocumentoRepository {
     @Transactional
     public void delete(Long id) {
         
-        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoRepository.findById(id)
+        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoDao.findById(id)
                 .orElseThrow(exceptionSupplier(id));
         
-        tipoDocumentoRepository.delete(tipoDocumentoEntity);
+        tipoDocumentoDao.delete(tipoDocumentoEntity);
     }
 
     private Supplier<? extends RuntimeException> exceptionSupplier(Long id) {

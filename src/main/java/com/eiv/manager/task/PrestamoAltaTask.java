@@ -7,7 +7,7 @@ import com.eiv.repository.PrestamoRepository;
 
 public class PrestamoAltaTask implements PrestamoTask<PrestamoEntity> {
 
-    private PrestamoRepository prestamoService;
+    private PrestamoRepository prestamoRepository;
     private Prestamo prestamo;
     private UsuarioEntity usuario;
     
@@ -18,8 +18,8 @@ public class PrestamoAltaTask implements PrestamoTask<PrestamoEntity> {
         return new PrestamoAltaTask();
     }
         
-    public PrestamoAltaTask setPrestamoService(PrestamoRepository prestamoService) {
-        this.prestamoService = prestamoService;
+    public PrestamoAltaTask setPrestamoRepository(PrestamoRepository prestamoRepository) {
+        this.prestamoRepository = prestamoRepository;
         return this;
     }
 
@@ -35,6 +35,6 @@ public class PrestamoAltaTask implements PrestamoTask<PrestamoEntity> {
 
     @Override
     public PrestamoEntity execute() {
-        return prestamoService.nuevo(prestamo, usuario);
+        return prestamoRepository.nuevo(prestamo, usuario);
     }
 }

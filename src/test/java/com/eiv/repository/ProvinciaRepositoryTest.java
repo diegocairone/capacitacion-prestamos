@@ -25,36 +25,27 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @RunWith(MockitoJUnitRunner.class)
 public class ProvinciaRepositoryTest {
 
-    @InjectMocks 
-    private ProvinciaRepository provinciaService;
-    
-    @Mock 
-    private ProvinciaDao provinciaRepository;
-    
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
+    @InjectMocks private ProvinciaRepository provinciaRepository;
     
     @Test
     public void givenProvinciaId_whenFindById_thenOptionalProvincia() {
         
-        provinciaService.findById(1L);
-        Mockito.verify(provinciaRepository).findById(Mockito.anyLong());
+        provinciaRepository.findById(1L);
+        Mockito.verify(provinciaDao).findById(Mockito.anyLong());
     }
 
     @Test
     public void whenFindAll_thenListProvincia() {
         
-        provinciaService.findAll();
-        Mockito.verify(provinciaRepository).findAll();
+        provinciaRepository.findAll();
+        Mockito.verify(provinciaDao).findAll();
     }
 
     @Test
     public void givenBoolExp_whenFindAll_thenListProvincia() {
         
-        provinciaService.findAll(q -> q.id.isNotNull());
-        Mockito.verify(provinciaRepository).findAll(Mockito.any(BooleanExpression.class));
+        provinciaRepository.findAll(q -> q.id.isNotNull());
+        Mockito.verify(provinciaDao).findAll(Mockito.any(BooleanExpression.class));
     }
 
     @Test
@@ -73,14 +64,14 @@ public class ProvinciaRepositoryTest {
             }
         };
         
-        ProvinciaEntity provinciaEntity = provinciaService.save(provincia);
+        ProvinciaEntity provinciaEntity = provinciaRepository.save(provincia);
         
         assertThat(provinciaEntity.getNombre()).isEqualTo(
                 provincia.getNombre());
         assertThat(provinciaEntity.getRegion()).isEqualTo(
                 provincia.getRegion());
         
-        Mockito.verify(provinciaRepository).save(Mockito.any(ProvinciaEntity.class));
+        Mockito.verify(provinciaDao).save(Mockito.any(ProvinciaEntity.class));
     }
 
     @Test
@@ -105,27 +96,27 @@ public class ProvinciaRepositoryTest {
         expected.setNombre("ORIGEN");
         expected.setRegion(RegionEnum.NORDESTE);
         
-        Mockito.when(provinciaRepository.findById(1L)).thenReturn(
+        Mockito.when(provinciaDao.findById(1L)).thenReturn(
                 Optional.of(expected));
         
-        ProvinciaEntity provinciaEntity = provinciaService.save(1L, provincia);
+        ProvinciaEntity provinciaEntity = provinciaRepository.save(1L, provincia);
 
         assertThat(provinciaEntity.getNombre()).isEqualTo(
                 provincia.getNombre());
         assertThat(provinciaEntity.getRegion()).isEqualTo(
                 provincia.getRegion());
 
-        Mockito.verify(provinciaRepository).save(Mockito.any(ProvinciaEntity.class));
+        Mockito.verify(provinciaDao).save(Mockito.any(ProvinciaEntity.class));
     }
    
     @Test
     public void givenProvinciaNoExiste_whenUpdate_thenThrowException() {
         
         assertThatThrownBy(() -> {
-            provinciaService.save(1L, Mockito.any());
+            provinciaRepository.save(1L, Mockito.any());
         }).isInstanceOf(NotFoundServiceException.class);
         
-        Mockito.verify(provinciaRepository, Mockito.never()).save(
+        Mockito.verify(provinciaDao, Mockito.never()).save(
                 Mockito.any(ProvinciaEntity.class));
     }
 
@@ -138,26 +129,32 @@ public class ProvinciaRepositoryTest {
         expected.setNombre("ORIGEN");
         expected.setRegion(RegionEnum.NORDESTE);
         
-        Mockito.when(provinciaRepository.findById(1L)).thenReturn(
+        Mockito.when(provinciaDao.findById(1L)).thenReturn(
                 Optional.of(expected));
         
-        provinciaService.delete(1L);
+        provinciaRepository.delete(1L);
 
-        Mockito.verify(provinciaRepository).findById(Mockito.anyLong());
-        Mockito.verify(provinciaRepository).delete(Mockito.any(ProvinciaEntity.class));
+        Mockito.verify(provinciaDao).findById(Mockito.anyLong());
+        Mockito.verify(provinciaDao).delete(Mockito.any(ProvinciaEntity.class));
     }
 
     @Test
     public void givenProvinciaNoExiste_whenDelete_thenThrowException() {
 
         assertThatThrownBy(() -> {
-            provinciaService.delete(Mockito.anyLong());
+            provinciaRepository.delete(Mockito.anyLong());
         }).isInstanceOf(NotFoundServiceException.class);
         
-        Mockito.verify(provinciaRepository).findById(Mockito.anyLong());
+        Mockito.verify(provinciaDao).findById(Mockito.anyLong());
         
-        Mockito.verify(provinciaRepository, Mockito.never()).save(
+        Mockito.verify(provinciaDao, Mockito.never()).save(
                 Mockito.any(ProvinciaEntity.class));
     }
-   
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
+    
+    @Mock private ProvinciaDao provinciaDao;
 }

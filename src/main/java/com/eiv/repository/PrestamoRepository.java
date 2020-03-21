@@ -32,13 +32,13 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @Repository
 public class PrestamoRepository {
 
-    @Autowired private LineaDao lineaRepository;
-    @Autowired private PersonaDao personaRepository;
-    @Autowired private PrestamoDao prestamoRepository;
+    @Autowired private LineaDao lineaDao;
+    @Autowired private PersonaDao personaDao;
+    @Autowired private PrestamoDao prestamoDao;
 
     @Transactional(readOnly = true)
     public Optional<PrestamoEntity> findById(Long id) {
-        return prestamoRepository.findById(id);
+        return prestamoDao.findById(id);
     }
 
     @Transactional(readOnly = true)
@@ -47,19 +47,19 @@ public class PrestamoRepository {
         QPrestamoEntity prestamoQuery = QPrestamoEntity.prestamoEntity;
         BooleanExpression exp = function.apply(prestamoQuery);
         
-        return (List<PrestamoEntity>) prestamoRepository.findAll(exp);
+        return (List<PrestamoEntity>) prestamoDao.findAll(exp);
     }
     
     @Transactional
     public PrestamoEntity nuevo(Prestamo prestamo, UsuarioEntity usuarioEntity) {
         
-        final long id = prestamoRepository.getMax().orElse(0L) +  1L;
+        final long id = prestamoDao.getMax().orElse(0L) +  1L;
         
-        final LineaEntity linea = lineaRepository.findById(prestamo.getLineaId()).orElseThrow(
+        final LineaEntity linea = lineaDao.findById(prestamo.getLineaId()).orElseThrow(
                 ExceptionUtils.notFoundExceptionSupplier(
                         "NO EXISTE UNA LINEA CON ID %s", prestamo.getLineaId()));
 
-        final PersonaEntity persona = personaRepository.findById(
+        final PersonaEntity persona = personaDao.findById(
                         new PersonaPkEntity(
                                 prestamo.getDocumentoTipoId(), prestamo.getNumeroDocumento()))
                 .orElseThrow(
@@ -148,7 +148,7 @@ public class PrestamoRepository {
         prestamoEntity.setTotalCuotas(prestamo.getTotalCuotas());
         prestamoEntity.setUsuario(usuarioEntity);
                 
-        prestamoRepository.save(prestamoEntity);
+        prestamoDao.save(prestamoEntity);
         
         return prestamoEntity;
     }
@@ -156,11 +156,11 @@ public class PrestamoRepository {
     @Transactional
     public void borrar(Long prestamoId) {
         
-        PrestamoEntity prestamoEntity = prestamoRepository.findById(prestamoId).orElseThrow(
+        PrestamoEntity prestamoEntity = prestamoDao.findById(prestamoId).orElseThrow(
                 ExceptionUtils.notFoundExceptionSupplier(
                         "NO EXISTE UN PRESTAMO CON ID %s", prestamoId));
         
-        prestamoRepository.delete(prestamoEntity);
+        prestamoDao.delete(prestamoEntity);
     }
     
     private BigDecimal convertirTasaEfectivaEnNominal(BigDecimal tasa, long modulo, long dias) {

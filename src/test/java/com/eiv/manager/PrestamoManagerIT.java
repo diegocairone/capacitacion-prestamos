@@ -91,7 +91,7 @@ public class PrestamoManagerIT {
             }
         };
         
-        final UsuarioEntity usuarioEntity = usuarioRepository
+        final UsuarioEntity usuarioEntity = usuarioDao
                 .findById(new PersonaPkEntity(1L, 1L))
                 .get();
         
@@ -115,5 +115,5 @@ public class PrestamoManagerIT {
         }
     }    
 
-    @Autowired private UsuarioDao usuarioRepository;
+    @Autowired private UsuarioDao usuarioDao;
 }

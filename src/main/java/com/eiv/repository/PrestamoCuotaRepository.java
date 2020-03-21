@@ -21,13 +21,13 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @Repository
 public class PrestamoCuotaRepository {
 
-    @Autowired private PrestamoCuotaDao prestamoCuotaRepository;
+    @Autowired private PrestamoCuotaDao prestamoCuotaDao;
 
     @Transactional(readOnly = true)
     public Optional<PrestamoCuotaEntity> findById(Consumer<PrestamoCuotaPkEntity> id) {
         PrestamoCuotaPkEntity pk = new PrestamoCuotaPkEntity();
         id.accept(pk);
-        return prestamoCuotaRepository.findById(pk);
+        return prestamoCuotaDao.findById(pk);
     }
 
     @Transactional(readOnly = true)
@@ -37,7 +37,7 @@ public class PrestamoCuotaRepository {
         QPrestamoCuotaEntity prestamoCuotaQuery = QPrestamoCuotaEntity.prestamoCuotaEntity;
         BooleanExpression exp = function.apply(prestamoCuotaQuery);
         
-        return (List<PrestamoCuotaEntity>) prestamoCuotaRepository.findAll(exp);
+        return (List<PrestamoCuotaEntity>) prestamoCuotaDao.findAll(exp);
     }
 
     @Transactional
@@ -53,7 +53,7 @@ public class PrestamoCuotaRepository {
         prestamoCuotaEntity.setTotal(prestamoCuota.getCapital().add(prestamoCuota.getInteres()));
         prestamoCuotaEntity.setSaldoCapital(prestamoCuota.getSaldoCapital());
         
-        prestamoCuotaRepository.save(prestamoCuotaEntity);
+        prestamoCuotaDao.save(prestamoCuotaEntity);
         
         return prestamoCuotaEntity;
     }
@@ -64,10 +64,10 @@ public class PrestamoCuotaRepository {
         PrestamoCuotaPkEntity pk = new PrestamoCuotaPkEntity();
         id.accept(pk);
         
-        PrestamoCuotaEntity prestamoCuotaEntity = prestamoCuotaRepository.findById(pk).orElseThrow(
+        PrestamoCuotaEntity prestamoCuotaEntity = prestamoCuotaDao.findById(pk).orElseThrow(
                 ExceptionUtils.notFoundExceptionSupplier(
                         "NO EXISTE UN PRESTAMO CON ID %s", pk));
         
-        prestamoCuotaRepository.delete(prestamoCuotaEntity);
+        prestamoCuotaDao.delete(prestamoCuotaEntity);
     }
 }

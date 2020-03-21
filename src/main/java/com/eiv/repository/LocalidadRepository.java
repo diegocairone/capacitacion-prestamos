@@ -22,12 +22,12 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @Repository
 public class LocalidadRepository {
 
-    @Autowired private LocalidadDao localidadRepository;
-    @Autowired private ProvinciaDao provinciaRepository; 
+    @Autowired private LocalidadDao localidadDao;
+    @Autowired private ProvinciaDao provinciaDao; 
 
     @Transactional(readOnly = true)
     public Optional<LocalidadEntity> findById(Long id) {
-        return localidadRepository.findById(id);
+        return localidadDao.findById(id);
     }
 
     @Transactional(readOnly = true)
@@ -36,14 +36,14 @@ public class LocalidadRepository {
         QLocalidadEntity localidadQuery = QLocalidadEntity.localidadEntity;
         BooleanExpression exp = function.apply(localidadQuery);
         
-        return (List<LocalidadEntity>) localidadRepository.findAll(exp);
+        return (List<LocalidadEntity>) localidadDao.findAll(exp);
     }
 
     @Transactional
     public LocalidadEntity save(Localidad localidad) {
         
-        Long id = localidadRepository.getMax().orElse(0L) + 1L;
-        ProvinciaEntity provinciaEntity = provinciaRepository
+        Long id = localidadDao.getMax().orElse(0L) + 1L;
+        ProvinciaEntity provinciaEntity = provinciaDao
                 .findById(localidad.getProvinciaId())
                 .orElseThrow(() -> new NotFoundServiceException(
                         "NO SE ENCUENTRA UNA PROVINCIA CON ID %s", localidad.getProvinciaId()));
@@ -55,7 +55,7 @@ public class LocalidadRepository {
         localidadEntity.setProvincia(provinciaEntity);
         localidadEntity.setCodigoPostal(localidad.getCodigoPostal());
         
-        localidadRepository.save(localidadEntity);
+        localidadDao.save(localidadEntity);
         
         return localidadEntity;
     }
@@ -63,7 +63,7 @@ public class LocalidadRepository {
     @Transactional
     public LocalidadEntity save(Long id, Localidad localidad) {
         
-        LocalidadEntity localidadEntity = localidadRepository
+        LocalidadEntity localidadEntity = localidadDao
                 .findById(id)
                 .orElseThrow(() -> new NotFoundServiceException(
                         "NO SE ENCUENTRA UNA LOCALIDAD CON ID %s", id));
@@ -74,7 +74,7 @@ public class LocalidadRepository {
         if (!localidad.getProvinciaId().equals(
                 localidadEntity.getProvincia().getId())) {
 
-            ProvinciaEntity provinciaEntity = provinciaRepository
+            ProvinciaEntity provinciaEntity = provinciaDao
                     .findById(localidad.getProvinciaId())
                     .orElseThrow(() -> new NotFoundServiceException(
                             "NO SE ENCUENTRA UNA PROVINCIA CON ID %s", 
@@ -83,7 +83,7 @@ public class LocalidadRepository {
             localidadEntity.setProvincia(provinciaEntity);
         }
         
-        localidadRepository.save(localidadEntity);
+        localidadDao.save(localidadEntity);
         
         return localidadEntity;
     }
@@ -91,10 +91,10 @@ public class LocalidadRepository {
     @Transactional
     public void delete(Long id) {
         
-        LocalidadEntity localidadEntity = localidadRepository.findById(id)
+        LocalidadEntity localidadEntity = localidadDao.findById(id)
                 .orElseThrow(exceptionSupplier(id));
         
-        localidadRepository.delete(localidadEntity);
+        localidadDao.delete(localidadEntity);
     }
 
     private Supplier<? extends RuntimeException> exceptionSupplier(Long id) {

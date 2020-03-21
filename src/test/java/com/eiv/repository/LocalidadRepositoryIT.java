@@ -26,7 +26,7 @@ import com.eiv.testutils.ITestCfg;
 @ContextConfiguration(classes = LocalidadRepositoryIT.TestCfg.class)
 public class LocalidadRepositoryIT {
 
-    @Autowired private LocalidadRepository localidadService;
+    @Autowired private LocalidadRepository localidadRepository;
     
     @Test
     @Transactional
@@ -50,8 +50,8 @@ public class LocalidadRepositoryIT {
             }
         };
         
-        LocalidadEntity localidadEntity = localidadService.save(localidad);
-        Optional<LocalidadEntity> expected = localidadRepository.findById(
+        LocalidadEntity localidadEntity = localidadRepository.save(localidad);
+        Optional<LocalidadEntity> expected = localidadDao.findById(
                 localidadEntity.getId());
 
         assertThat(expected).isNotEmpty();
@@ -87,8 +87,8 @@ public class LocalidadRepositoryIT {
             }
         };
         
-        LocalidadEntity localidadEntity = localidadService.save(1L, localidad);
-        Optional<LocalidadEntity> expected = localidadRepository.findById(
+        LocalidadEntity localidadEntity = localidadRepository.save(1L, localidad);
+        Optional<LocalidadEntity> expected = localidadDao.findById(
                 localidadEntity.getId());
 
         assertThat(expected).isNotEmpty();
@@ -106,11 +106,11 @@ public class LocalidadRepositoryIT {
     @Transactional
     public void givenLocalidadById_whenDelete_thenLocalidadNoExiste() {
         
-        final Optional<LocalidadEntity> optional = localidadRepository.findById(1L);
+        final Optional<LocalidadEntity> optional = localidadDao.findById(1L);
         
-        localidadService.delete(optional.get().getId());
+        localidadRepository.delete(optional.get().getId());
         
-        final Optional<LocalidadEntity> expected = localidadRepository.findById(1L);
+        final Optional<LocalidadEntity> expected = localidadDao.findById(1L);
         assertThat(expected).isEmpty();
     }
     
@@ -127,5 +127,5 @@ public class LocalidadRepositoryIT {
         }
     }
     
-    @Autowired private LocalidadDao localidadRepository;
+    @Autowired private LocalidadDao localidadDao;
 }

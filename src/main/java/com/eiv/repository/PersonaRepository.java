@@ -24,15 +24,15 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @Repository
 public class PersonaRepository {
 
-    @Autowired private LocalidadDao localidadRepository;
-    @Autowired private PersonaDao personaRepository;
-    @Autowired private TipoDocumentoDao tipoDocumentoRepository;
+    @Autowired private LocalidadDao localidadDao;
+    @Autowired private PersonaDao personaDao;
+    @Autowired private TipoDocumentoDao tipoDocumentoDao;
 
     @Transactional(readOnly = true)
     public Optional<PersonaEntity> findById(Consumer<PersonaPkEntity> id) {
         PersonaPkEntity pk = new PersonaPkEntity();
         id.accept(pk);
-        return personaRepository.findById(pk);
+        return personaDao.findById(pk);
     }
 
     @Transactional(readOnly = true)
@@ -41,7 +41,7 @@ public class PersonaRepository {
         QPersonaEntity personaQuery = QPersonaEntity.personaEntity;
         BooleanExpression exp = function.apply(personaQuery);
         
-        return (List<PersonaEntity>) personaRepository.findAll(exp);
+        return (List<PersonaEntity>) personaDao.findAll(exp);
     }
 
     @Transactional
@@ -50,9 +50,9 @@ public class PersonaRepository {
         PersonaPkEntity pk = new PersonaPkEntity(
                 persona.getTipoDocumentoId(), Long.valueOf(persona.getNumeroDocumento()));
         
-        PersonaEntity personaEntity = personaRepository.findById(pk).orElseGet(() -> {
+        PersonaEntity personaEntity = personaDao.findById(pk).orElseGet(() -> {
             
-            TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoRepository
+            TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoDao
                     .findById(persona.getTipoDocumentoId())
                     .orElseThrow(ExceptionUtils.notFoundExceptionSupplier(
                             "NO EXISTE UN TIPO DE DOCUMENTO CON ID %s", 
@@ -75,7 +75,7 @@ public class PersonaRepository {
         if (personaEntity.getLocalidad() == null 
                 || personaEntity.getLocalidad().getId().equals(persona.getLocalidadId())) {
             
-            LocalidadEntity other = localidadRepository.findById(persona.getLocalidadId())
+            LocalidadEntity other = localidadDao.findById(persona.getLocalidadId())
                     .orElseThrow(ExceptionUtils.notFoundExceptionSupplier(
                             "NO EXISTE UNA PERSONA CON ID %s", 
                             persona.getLocalidadId()));
@@ -83,7 +83,7 @@ public class PersonaRepository {
             personaEntity.setLocalidad(other);
         }
         
-        personaRepository.save(personaEntity);
+        personaDao.save(personaEntity);
         
         return personaEntity;
     }
@@ -94,10 +94,10 @@ public class PersonaRepository {
         PersonaPkEntity pk = new PersonaPkEntity();
         id.accept(pk);
         
-        PersonaEntity personaEntity = personaRepository.findById(pk)
+        PersonaEntity personaEntity = personaDao.findById(pk)
                 .orElseThrow(ExceptionUtils.notFoundExceptionSupplier(
                         "NO EXISTE UNA PERSONA CON ID %s", pk));
         
-        personaRepository.delete(personaEntity);
+        personaDao.delete(personaEntity);
     }
 }

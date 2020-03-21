@@ -21,11 +21,11 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @Repository
 public class LineaRepository {
 
-    @Autowired private LineaDao lineaRepository;
+    @Autowired private LineaDao lineaDao;
 
     @Transactional(readOnly = true)
     public Optional<LineaEntity> findById(Long id) {
-        return lineaRepository.findById(id);
+        return lineaDao.findById(id);
     }
 
     @Transactional(readOnly = true)
@@ -34,13 +34,13 @@ public class LineaRepository {
         QLineaEntity lineaQuery = QLineaEntity.lineaEntity;
         BooleanExpression exp = function.apply(lineaQuery);
         
-        return (List<LineaEntity>) lineaRepository.findAll(exp);
+        return (List<LineaEntity>) lineaDao.findAll(exp);
     }
 
     @Transactional
     public LineaEntity save(Linea linea, UsuarioEntity usuario) {
         
-        Long id = lineaRepository.getMax().orElse(0L) + 1L;
+        Long id = lineaDao.getMax().orElse(0L) + 1L;
         
         LineaEntity lineaEntity = new LineaEntity();
         
@@ -60,7 +60,7 @@ public class LineaRepository {
         lineaEntity.setFechaAlta(LocalDate.now());
         lineaEntity.setUsuario(usuario);
         
-        lineaRepository.save(lineaEntity);
+        lineaDao.save(lineaEntity);
         
         return lineaEntity;
     }
@@ -68,7 +68,7 @@ public class LineaRepository {
     @Transactional
     public LineaEntity save(Long id, Linea linea) {
         
-        LineaEntity lineaEntity = lineaRepository
+        LineaEntity lineaEntity = lineaDao
                 .findById(id)
                 .orElseThrow(exceptionSupplier(id));
         
@@ -85,7 +85,7 @@ public class LineaRepository {
         lineaEntity.setCapitalMin(linea.getCapitalMin());
         lineaEntity.setCapitalMax(linea.getCapitalMax());
 
-        lineaRepository.save(lineaEntity);
+        lineaDao.save(lineaEntity);
         
         return lineaEntity;
     }
@@ -93,10 +93,10 @@ public class LineaRepository {
     @Transactional
     public void delete(Long id) {
         
-        LineaEntity lineaEntity = lineaRepository.findById(id)
+        LineaEntity lineaEntity = lineaDao.findById(id)
                 .orElseThrow(exceptionSupplier(id));
         
-        lineaRepository.delete(lineaEntity);
+        lineaDao.delete(lineaEntity);
     }
 
     private Supplier<? extends RuntimeException> exceptionSupplier(Long id) {
