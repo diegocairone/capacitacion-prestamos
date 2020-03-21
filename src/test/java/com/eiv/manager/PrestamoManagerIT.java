@@ -95,7 +95,7 @@ public class PrestamoManagerIT {
                 .findById(new PersonaPkEntity(1L, 1L))
                 .get();
         
-        PrestamoEntity prestamoEntity = prestamoManager.solicitar(prestamo, usuarioEntity);
+        PrestamoEntity prestamoEntity = prestamoManager.manage(prestamo, usuarioEntity);
         Assertions.assertThat(prestamoEntity).isNotNull();
         
         System.out.println(prestamoEntity);

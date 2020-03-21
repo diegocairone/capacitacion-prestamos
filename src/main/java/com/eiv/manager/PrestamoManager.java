@@ -25,7 +25,7 @@ public class PrestamoManager {
     @Autowired private PrestamoCuotaRepository prestamoCuotaRepository;
     
     @Transactional
-    public PrestamoEntity solicitar(Prestamo prestamo, UsuarioEntity usuario) {
+    public PrestamoEntity manage(Prestamo prestamo, UsuarioEntity usuario) {
         
         final PrestamoTaskExecutor executor = new PrestamoTaskExecutor();
         
