@@ -60,7 +60,30 @@ public class PrestamoManager {
                 .setPrestamoCuotas(prestamoCuotas);
         
         BigDecimal totalIntereses = executor.run(sumatoriaTask);
+        Prestamo prestamo = getPrestamoImpl(solicitud, totalIntereses);
         
+        PrestamoAltaTask altaTask = PrestamoAltaTask.newInstance()
+                .setPrestamo(prestamo)
+                .setUsuario(usuario)
+                .setPrestamoDas(prestamoDas);
+        
+        PrestamoEntity prestamoEntity = executor.run(altaTask);
+        
+        prestamoCuotas.forEach(prestamoCuota -> {
+
+            PrestamoCuotaAltaTask cuotaAltaTask = PrestamoCuotaAltaTask.newInstance()
+                    .setPrestamoEntity(prestamoEntity)
+                    .setPrestamoCuota(prestamoCuota)
+                    .setPrestamoCuotaDas(prestamoCuotaDas);
+                    
+            executor.run(cuotaAltaTask);
+        });
+        
+        return prestamoEntity;
+    }
+    
+    private Prestamo getPrestamoImpl(PrestamoSolicitudFrm solicitud, BigDecimal totalIntereses) {
+
         Prestamo prestamo = new Prestamo() {
             
             @Override
@@ -119,23 +142,6 @@ public class PrestamoManager {
             }
         };
         
-        PrestamoAltaTask altaTask = PrestamoAltaTask.newInstance()
-                .setPrestamo(prestamo)
-                .setUsuario(usuario)
-                .setPrestamoDas(prestamoDas);
-        
-        PrestamoEntity prestamoEntity = executor.run(altaTask);
-        
-        prestamoCuotas.forEach(prestamoCuota -> {
-
-            PrestamoCuotaAltaTask cuotaAltaTask = PrestamoCuotaAltaTask.newInstance()
-                    .setPrestamoEntity(prestamoEntity)
-                    .setPrestamoCuota(prestamoCuota)
-                    .setPrestamoCuotaDas(prestamoCuotaDas);
-                    
-            executor.run(cuotaAltaTask);
-        });
-        
-        return prestamoEntity;
+        return prestamo;
     }
 }
