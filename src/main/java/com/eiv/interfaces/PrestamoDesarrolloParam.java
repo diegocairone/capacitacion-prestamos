@@ -1,4 +1,4 @@
-package com.eiv.service;
+package com.eiv.interfaces;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

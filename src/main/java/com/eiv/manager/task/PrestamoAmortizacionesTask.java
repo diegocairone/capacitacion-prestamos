@@ -7,7 +7,7 @@ import java.util.List;
 import com.eiv.enums.SistemaAmortizacionEnum;
 import com.eiv.enums.UnidadAmortizacionEnum;
 import com.eiv.interfaces.PrestamoCuota;
-import com.eiv.service.PrestamoDesarrolloParam;
+import com.eiv.interfaces.PrestamoDesarrolloParam;
 import com.eiv.service.PrestamoDesarrolloService;
 import com.eiv.service.PrestamoDesarrolloServiceFactory;
 

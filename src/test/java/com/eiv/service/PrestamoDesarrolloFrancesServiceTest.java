@@ -10,6 +10,7 @@ import org.junit.Test;
 import com.eiv.enums.SistemaAmortizacionEnum;
 import com.eiv.enums.UnidadAmortizacionEnum;
 import com.eiv.interfaces.PrestamoCuota;
+import com.eiv.interfaces.PrestamoDesarrolloParam;
 
 public class PrestamoDesarrolloFrancesServiceTest {
 

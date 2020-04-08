@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import com.eiv.enums.UnidadAmortizacionEnum;
 import com.eiv.interfaces.PrestamoCuota;
+import com.eiv.interfaces.PrestamoDesarrolloParam;
 
 public abstract class PrestamoDesarrolloBaseService {
     

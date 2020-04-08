@@ -20,8 +20,7 @@ import com.eiv.entities.PersonaPkEntity;
 import com.eiv.entities.PrestamoEntity;
 import com.eiv.entities.UsuarioEntity;
 import com.eiv.enums.UnidadAmortizacionEnum;
-import com.eiv.interfaces.Prestamo;
-import com.eiv.manager.PrestamoManager;
+import com.eiv.interfaces.PrestamoSolicitudFrm;
 import com.eiv.testutils.ITestCfg;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,7 +32,7 @@ public class PrestamoManagerIT {
     @Test
     public void test() {
         
-        final Prestamo prestamo = new Prestamo() {
+        final PrestamoSolicitudFrm solicitud = new PrestamoSolicitudFrm() {
             
             @Override
             public Integer getTotalCuotas() {
@@ -84,18 +83,13 @@ public class PrestamoManagerIT {
             public Integer getAmortizacionPeriodo() {
                 return 30;
             }
-
-            @Override
-            public BigDecimal getTotalIntereses() {
-                return BigDecimal.ZERO;
-            }
         };
         
         final UsuarioEntity usuarioEntity = usuarioDao
                 .findById(new PersonaPkEntity(1L, 1L))
                 .get();
         
-        PrestamoEntity prestamoEntity = prestamoManager.manage(prestamo, usuarioEntity);
+        PrestamoEntity prestamoEntity = prestamoManager.manage(solicitud, usuarioEntity);
         Assertions.assertThat(prestamoEntity).isNotNull();
         
         System.out.println(prestamoEntity);

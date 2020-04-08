@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.eiv.interfaces.PrestamoCuota;
+import com.eiv.interfaces.PrestamoDesarrolloParam;
 
 @Service
 public class PrestamoDesarrolloAlemanService 
