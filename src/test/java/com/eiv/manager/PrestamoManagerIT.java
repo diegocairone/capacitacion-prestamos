@@ -96,7 +96,7 @@ public class PrestamoManagerIT {
     }
     
     @ComponentScan(basePackages = { 
-            "com.eiv.repository", "com.eiv.manager", "com.eiv.service" })
+            "com.eiv.das", "com.eiv.manager", "com.eiv.service" })
     public static class TestCfg extends ITestCfg {
         
         @Bean

@@ -1,4 +1,4 @@
-package com.eiv.repository;
+package com.eiv.das;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -15,36 +15,36 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.eiv.dao.ProvinciaDao;
+import com.eiv.das.ProvinciaDas;
 import com.eiv.entities.ProvinciaEntity;
 import com.eiv.enums.RegionEnum;
 import com.eiv.exceptions.NotFoundServiceException;
 import com.eiv.interfaces.Provincia;
-import com.eiv.repository.ProvinciaRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProvinciaRepositoryTest {
+public class ProvinciaDasTest {
 
-    @InjectMocks private ProvinciaRepository provinciaRepository;
+    @InjectMocks private ProvinciaDas provinciaDas;
     
     @Test
     public void givenProvinciaId_whenFindById_thenOptionalProvincia() {
         
-        provinciaRepository.findById(1L);
+        provinciaDas.findById(1L);
         Mockito.verify(provinciaDao).findById(Mockito.anyLong());
     }
 
     @Test
     public void whenFindAll_thenListProvincia() {
         
-        provinciaRepository.findAll();
+        provinciaDas.findAll();
         Mockito.verify(provinciaDao).findAll();
     }
 
     @Test
     public void givenBoolExp_whenFindAll_thenListProvincia() {
         
-        provinciaRepository.findAll(q -> q.id.isNotNull());
+        provinciaDas.findAll(q -> q.id.isNotNull());
         Mockito.verify(provinciaDao).findAll(Mockito.any(BooleanExpression.class));
     }
 
@@ -64,7 +64,7 @@ public class ProvinciaRepositoryTest {
             }
         };
         
-        ProvinciaEntity provinciaEntity = provinciaRepository.save(provincia);
+        ProvinciaEntity provinciaEntity = provinciaDas.save(provincia);
         
         assertThat(provinciaEntity.getNombre()).isEqualTo(
                 provincia.getNombre());
@@ -99,7 +99,7 @@ public class ProvinciaRepositoryTest {
         Mockito.when(provinciaDao.findById(1L)).thenReturn(
                 Optional.of(expected));
         
-        ProvinciaEntity provinciaEntity = provinciaRepository.save(1L, provincia);
+        ProvinciaEntity provinciaEntity = provinciaDas.save(1L, provincia);
 
         assertThat(provinciaEntity.getNombre()).isEqualTo(
                 provincia.getNombre());
@@ -113,7 +113,7 @@ public class ProvinciaRepositoryTest {
     public void givenProvinciaNoExiste_whenUpdate_thenThrowException() {
         
         assertThatThrownBy(() -> {
-            provinciaRepository.save(1L, Mockito.any());
+            provinciaDas.save(1L, Mockito.any());
         }).isInstanceOf(NotFoundServiceException.class);
         
         Mockito.verify(provinciaDao, Mockito.never()).save(
@@ -132,7 +132,7 @@ public class ProvinciaRepositoryTest {
         Mockito.when(provinciaDao.findById(1L)).thenReturn(
                 Optional.of(expected));
         
-        provinciaRepository.delete(1L);
+        provinciaDas.delete(1L);
 
         Mockito.verify(provinciaDao).findById(Mockito.anyLong());
         Mockito.verify(provinciaDao).delete(Mockito.any(ProvinciaEntity.class));
@@ -142,7 +142,7 @@ public class ProvinciaRepositoryTest {
     public void givenProvinciaNoExiste_whenDelete_thenThrowException() {
 
         assertThatThrownBy(() -> {
-            provinciaRepository.delete(Mockito.anyLong());
+            provinciaDas.delete(Mockito.anyLong());
         }).isInstanceOf(NotFoundServiceException.class);
         
         Mockito.verify(provinciaDao).findById(Mockito.anyLong());

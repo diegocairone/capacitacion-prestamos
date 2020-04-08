@@ -1,4 +1,4 @@
-package com.eiv.repository;
+package com.eiv.das;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eiv.dao.LocalidadDao;
@@ -16,11 +15,12 @@ import com.eiv.entities.ProvinciaEntity;
 import com.eiv.entities.QLocalidadEntity;
 import com.eiv.exceptions.NotFoundServiceException;
 import com.eiv.interfaces.Localidad;
+import com.eiv.stereotype.DataService;
 import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
-@Repository
-public class LocalidadRepository {
+@DataService
+public class LocalidadDas {
 
     @Autowired private LocalidadDao localidadDao;
     @Autowired private ProvinciaDao provinciaDao; 

@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.eiv.das.ProvinciaDas;
 import com.eiv.entities.ProvinciaEntity;
 import com.eiv.enums.RegionEnum;
-import com.eiv.repository.ProvinciaRepository;
 
 public class App {
 
@@ -33,5 +33,5 @@ public class App {
         });
     }
     
-    @Autowired ProvinciaRepository provinciaService;
+    @Autowired ProvinciaDas provinciaService;
 }

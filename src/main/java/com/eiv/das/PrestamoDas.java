@@ -1,4 +1,4 @@
-package com.eiv.repository;
+package com.eiv.das;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eiv.dao.LineaDao;
@@ -26,11 +25,12 @@ import com.eiv.interfaces.Prestamo;
 import com.eiv.maths.ctf.ConversorTasaFinanciera;
 import com.eiv.maths.ctf.TasaFinanciera;
 import com.eiv.maths.ctf.TipoTasaFinancieraEnum;
+import com.eiv.stereotype.DataService;
 import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
-@Repository
-public class PrestamoRepository {
+@DataService
+public class PrestamoDas {
 
     @Autowired private LineaDao lineaDao;
     @Autowired private PersonaDao personaDao;

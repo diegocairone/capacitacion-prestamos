@@ -1,4 +1,4 @@
-package com.eiv.repository;
+package com.eiv.das;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -7,7 +7,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eiv.dao.LineaDao;
@@ -15,11 +14,12 @@ import com.eiv.entities.LineaEntity;
 import com.eiv.entities.QLineaEntity;
 import com.eiv.entities.UsuarioEntity;
 import com.eiv.interfaces.Linea;
+import com.eiv.stereotype.DataService;
 import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
-@Repository
-public class LineaRepository {
+@DataService
+public class LineaDas {
 
     @Autowired private LineaDao lineaDao;
 

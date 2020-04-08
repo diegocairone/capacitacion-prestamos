@@ -1,19 +1,19 @@
 package com.eiv.manager.task;
 
+import com.eiv.das.LineaDas;
 import com.eiv.entities.LineaEntity;
-import com.eiv.repository.LineaRepository;
 import com.eiv.utiles.ExceptionUtils;
 
 public class PrestamoLineaTask implements PrestamoTask<LineaEntity> {
 
-    private LineaRepository lineaRepository;
+    private LineaDas lineaDas;
     private Long lineaId;
     
     private PrestamoLineaTask() {
     }
     
-    public PrestamoLineaTask setLineaRepository(LineaRepository lineaRepository) {
-        this.lineaRepository = lineaRepository;
+    public PrestamoLineaTask setLineaDas(LineaDas lineaDas) {
+        this.lineaDas = lineaDas;
         return this;
     }
 
@@ -29,7 +29,7 @@ public class PrestamoLineaTask implements PrestamoTask<LineaEntity> {
     @Override
     public LineaEntity execute() {
 
-        LineaEntity lineaEntity = lineaRepository.findById(lineaId)
+        LineaEntity lineaEntity = lineaDas.findById(lineaId)
                 .orElseThrow(ExceptionUtils.notFoundExceptionSupplier(
                         "NO EXISTE UNA LINEA CON ID %s", lineaId));
 

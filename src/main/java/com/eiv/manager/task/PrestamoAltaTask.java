@@ -1,13 +1,13 @@
 package com.eiv.manager.task;
 
+import com.eiv.das.PrestamoDas;
 import com.eiv.entities.PrestamoEntity;
 import com.eiv.entities.UsuarioEntity;
 import com.eiv.interfaces.Prestamo;
-import com.eiv.repository.PrestamoRepository;
 
 public class PrestamoAltaTask implements PrestamoTask<PrestamoEntity> {
 
-    private PrestamoRepository prestamoRepository;
+    private PrestamoDas prestamoDas;
     private Prestamo prestamo;
     private UsuarioEntity usuario;
     
@@ -18,8 +18,8 @@ public class PrestamoAltaTask implements PrestamoTask<PrestamoEntity> {
         return new PrestamoAltaTask();
     }
         
-    public PrestamoAltaTask setPrestamoRepository(PrestamoRepository prestamoRepository) {
-        this.prestamoRepository = prestamoRepository;
+    public PrestamoAltaTask setPrestamoDas(PrestamoDas prestamoDas) {
+        this.prestamoDas = prestamoDas;
         return this;
     }
 
@@ -35,6 +35,6 @@ public class PrestamoAltaTask implements PrestamoTask<PrestamoEntity> {
 
     @Override
     public PrestamoEntity execute() {
-        return prestamoRepository.nuevo(prestamo, usuario);
+        return prestamoDas.nuevo(prestamo, usuario);
     }
 }

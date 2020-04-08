@@ -1,4 +1,4 @@
-package com.eiv.repository;
+package com.eiv.das;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,17 +16,17 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import com.eiv.dao.LocalidadDao;
 import com.eiv.dao.ProvinciaDao;
+import com.eiv.das.LocalidadDas;
 import com.eiv.entities.LocalidadEntity;
 import com.eiv.entities.ProvinciaEntity;
 import com.eiv.enums.RegionEnum;
 import com.eiv.exceptions.NotFoundServiceException;
 import com.eiv.interfaces.Localidad;
-import com.eiv.repository.LocalidadRepository;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LocalidadRepositoryTest {
+public class LocalidadDasTest {
 
-    @InjectMocks private LocalidadRepository localidadRepository;
+    @InjectMocks private LocalidadDas localidadDas;
 
     @Test
     public void givenLocalidadForm_whenCreate_thenNewLocalidad() {
@@ -59,7 +59,7 @@ public class LocalidadRepositoryTest {
                 Optional.of(provinciaMock));
         
         
-        LocalidadEntity localidadEntity = localidadRepository.save(localidad);
+        LocalidadEntity localidadEntity = localidadDas.save(localidad);
         
         assertThat(localidadEntity.getNombre()).isEqualTo(
                 localidad.getNombre());
@@ -94,7 +94,7 @@ public class LocalidadRepositoryTest {
         };
         
         Throwable throwable = Assertions.catchThrowable(() -> {
-            localidadRepository.save(localidad);
+            localidadDas.save(localidad);
         });
         
         assertThat(throwable).isInstanceOf(NotFoundServiceException.class);
@@ -153,7 +153,7 @@ public class LocalidadRepositoryTest {
                 Optional.of(expected));
         
         
-        LocalidadEntity localidadEntity = localidadRepository.save(1L, localidad);
+        LocalidadEntity localidadEntity = localidadDas.save(1L, localidad);
         
         assertThat(localidadEntity.getNombre()).isEqualTo(
                 localidad.getNombre());
@@ -205,7 +205,7 @@ public class LocalidadRepositoryTest {
                 Optional.of(expected));
         
         
-        LocalidadEntity localidadEntity = localidadRepository.save(1L, localidad);
+        LocalidadEntity localidadEntity = localidadDas.save(1L, localidad);
         
         assertThat(localidadEntity.getNombre()).isEqualTo(
                 localidad.getNombre());
@@ -241,7 +241,7 @@ public class LocalidadRepositoryTest {
         };
 
         Throwable throwable = Assertions.catchThrowable(() -> {
-            localidadRepository.save(1L, localidad);
+            localidadDas.save(1L, localidad);
         });
         
         assertThat(throwable)
@@ -294,7 +294,7 @@ public class LocalidadRepositoryTest {
                 Optional.of(expected));
         
         Throwable throwable = Assertions.catchThrowable(() -> {
-            localidadRepository.save(1L, localidad);
+            localidadDas.save(1L, localidad);
         });
         
         assertThat(throwable)
@@ -318,7 +318,7 @@ public class LocalidadRepositoryTest {
         Mockito.when(localidadDao.findById(1L)).thenReturn(
                 Optional.of(expected));
 
-        localidadRepository.delete(1L);
+        localidadDas.delete(1L);
 
         Mockito.verify(localidadDao).findById(Mockito.anyLong());
         Mockito.verify(localidadDao).delete(Mockito.any(LocalidadEntity.class));

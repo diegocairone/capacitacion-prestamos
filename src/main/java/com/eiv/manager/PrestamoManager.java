@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.eiv.das.LineaDas;
+import com.eiv.das.PrestamoCuotaDas;
+import com.eiv.das.PrestamoDas;
 import com.eiv.entities.LineaEntity;
 import com.eiv.entities.PrestamoEntity;
 import com.eiv.entities.UsuarioEntity;
@@ -21,16 +24,13 @@ import com.eiv.manager.task.PrestamoCuotaAltaTask;
 import com.eiv.manager.task.PrestamoLineaTask;
 import com.eiv.manager.task.PrestamoSumatoriaTask;
 import com.eiv.manager.task.PrestamoTaskExecutor;
-import com.eiv.repository.LineaRepository;
-import com.eiv.repository.PrestamoCuotaRepository;
-import com.eiv.repository.PrestamoRepository;
 
 @Component
 public class PrestamoManager {
 
-    @Autowired private PrestamoRepository prestamoRepository;
-    @Autowired private PrestamoCuotaRepository prestamoCuotaRepository;
-    @Autowired private LineaRepository lineaRepository;
+    @Autowired private PrestamoDas prestamoDas;
+    @Autowired private PrestamoCuotaDas prestamoCuotaDas;
+    @Autowired private LineaDas lineaDas;
     
     @Transactional
     public PrestamoEntity manage(PrestamoSolicitudFrm solicitud, UsuarioEntity usuario) {
@@ -38,7 +38,7 @@ public class PrestamoManager {
         final PrestamoTaskExecutor executor = new PrestamoTaskExecutor();
         
         PrestamoLineaTask lineaTask = PrestamoLineaTask.newInstance()
-                .setLineaRepository(lineaRepository)
+                .setLineaDas(lineaDas)
                 .setLineaId(solicitud.getLineaId());
         
         LineaEntity lineaEntity = executor.run(lineaTask);
@@ -122,7 +122,7 @@ public class PrestamoManager {
         PrestamoAltaTask altaTask = PrestamoAltaTask.newInstance()
                 .setPrestamo(prestamo)
                 .setUsuario(usuario)
-                .setPrestamoRepository(prestamoRepository);
+                .setPrestamoDas(prestamoDas);
         
         PrestamoEntity prestamoEntity = executor.run(altaTask);
         
@@ -131,7 +131,7 @@ public class PrestamoManager {
             PrestamoCuotaAltaTask cuotaAltaTask = PrestamoCuotaAltaTask.newInstance()
                     .setPrestamoEntity(prestamoEntity)
                     .setPrestamoCuota(prestamoCuota)
-                    .setPrestamoCuotaRepository(prestamoCuotaRepository);
+                    .setPrestamoCuotaDas(prestamoCuotaDas);
                     
             executor.run(cuotaAltaTask);
         });

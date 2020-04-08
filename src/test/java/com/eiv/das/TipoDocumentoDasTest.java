@@ -1,4 +1,4 @@
-package com.eiv.repository;
+package com.eiv.das;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -15,26 +15,27 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.eiv.dao.TipoDocumentoDao;
+import com.eiv.das.TipoDocumentoDas;
 import com.eiv.entities.TipoDocumentoEntity;
 import com.eiv.exceptions.NotFoundServiceException;
 import com.eiv.interfaces.TipoDocumento;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TipoDocumentoRepositoryTest {
+public class TipoDocumentoDasTest {
 
-    @InjectMocks private TipoDocumentoRepository tipoDocumentoRepository;
+    @InjectMocks private TipoDocumentoDas tipoDocumentoDas;
     
     @Test
     public void givenTipoDocumentoId_whenFindById_thenOptionalTipoDocumento() {
         
-        tipoDocumentoRepository.findById(1L);
+        tipoDocumentoDas.findById(1L);
         Mockito.verify(tipoDocumentoDao).findById(Mockito.anyLong());
     }
 
     @Test
     public void whenFindAll_thenListTipoDocumento() {
         
-        tipoDocumentoRepository.findAll();
+        tipoDocumentoDas.findAll();
         Mockito.verify(tipoDocumentoDao).findAll();
     }
 
@@ -59,7 +60,7 @@ public class TipoDocumentoRepositoryTest {
             }
         };
         
-        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoRepository.save(tipoDocumento);
+        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoDas.save(tipoDocumento);
         
         Assertions.assertThat(tipoDocumentoEntity.getId()).isNull();
         Assertions.assertThat(tipoDocumentoEntity.getValidarComoCuit()).isEqualTo(
@@ -102,7 +103,7 @@ public class TipoDocumentoRepositoryTest {
         
         Mockito.when(tipoDocumentoDao.findById(1L)).thenReturn(Optional.of(mock));
 
-        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoRepository.save(1L, tipoDocumento);
+        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoDas.save(1L, tipoDocumento);
         
         Assertions.assertThat(tipoDocumentoEntity.getId()).isNotNull();
         Assertions.assertThat(tipoDocumentoEntity.getValidarComoCuit()).isEqualTo(
@@ -138,7 +139,7 @@ public class TipoDocumentoRepositoryTest {
         };
         
         Assertions.assertThatThrownBy(() -> {
-            tipoDocumentoRepository.save(1L, tipoDocumento);
+            tipoDocumentoDas.save(1L, tipoDocumento);
         }).isInstanceOf(NotFoundServiceException.class);
                 
         Mockito.verify(tipoDocumentoDao).findById(
@@ -160,7 +161,7 @@ public class TipoDocumentoRepositoryTest {
         Mockito.when(tipoDocumentoDao.findById(1L)).thenReturn(
                 Optional.of(expected));
         
-        tipoDocumentoRepository.delete(1L);
+        tipoDocumentoDas.delete(1L);
 
         Mockito.verify(tipoDocumentoDao).findById(Mockito.anyLong());
         Mockito.verify(tipoDocumentoDao).delete(Mockito.any(TipoDocumentoEntity.class));
@@ -170,7 +171,7 @@ public class TipoDocumentoRepositoryTest {
     public void givenProvinciaNoExiste_whenDelete_thenThrowException() {
 
         assertThatThrownBy(() -> {
-            tipoDocumentoRepository.delete(Mockito.anyLong());
+            tipoDocumentoDas.delete(Mockito.anyLong());
         }).isInstanceOf(NotFoundServiceException.class);
         
         Mockito.verify(tipoDocumentoDao).findById(Mockito.anyLong());

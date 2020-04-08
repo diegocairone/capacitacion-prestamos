@@ -1,4 +1,4 @@
-package com.eiv.repository;
+package com.eiv.das;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eiv.dao.LocalidadDao;
@@ -18,11 +17,12 @@ import com.eiv.entities.PersonaPkEntity;
 import com.eiv.entities.QPersonaEntity;
 import com.eiv.entities.TipoDocumentoEntity;
 import com.eiv.interfaces.Persona;
+import com.eiv.stereotype.DataService;
 import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
-@Repository
-public class PersonaRepository {
+@DataService
+public class PersonaDas {
 
     @Autowired private LocalidadDao localidadDao;
     @Autowired private PersonaDao personaDao;

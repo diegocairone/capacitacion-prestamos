@@ -1,4 +1,4 @@
-package com.eiv.repository;
+package com.eiv.das;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eiv.dao.PrestamoCuotaDao;
@@ -15,11 +14,12 @@ import com.eiv.entities.PrestamoCuotaPkEntity;
 import com.eiv.entities.PrestamoEntity;
 import com.eiv.entities.QPrestamoCuotaEntity;
 import com.eiv.interfaces.PrestamoCuota;
+import com.eiv.stereotype.DataService;
 import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
-@Repository
-public class PrestamoCuotaRepository {
+@DataService
+public class PrestamoCuotaDas {
 
     @Autowired private PrestamoCuotaDao prestamoCuotaDao;
 

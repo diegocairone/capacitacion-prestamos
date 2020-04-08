@@ -1,4 +1,4 @@
-package com.eiv.repository;
+package com.eiv.das;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,17 +17,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eiv.dao.ProvinciaDao;
+import com.eiv.das.ProvinciaDas;
 import com.eiv.entities.ProvinciaEntity;
 import com.eiv.enums.RegionEnum;
 import com.eiv.interfaces.Provincia;
-import com.eiv.repository.ProvinciaRepository;
 import com.eiv.testutils.ITestCfg;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ProvinciaRepositoryIT.TestCfg.class)
-public class ProvinciaRepositoryIT {
+@ContextConfiguration(classes = ProvinciaDasIT.TestCfg.class)
+public class ProvinciaDasIT {
 
-    @Autowired private ProvinciaRepository provinciaRepository;
+    @Autowired private ProvinciaDas provinciaDas;
     
     @Test
     @Transactional
@@ -46,7 +46,7 @@ public class ProvinciaRepositoryIT {
             }
         };
         
-        ProvinciaEntity provinciaEntity = provinciaRepository.save(provincia);
+        ProvinciaEntity provinciaEntity = provinciaDas.save(provincia);
         Optional<ProvinciaEntity> expected = provinciaDao.findById(
                 provinciaEntity.getId());
 
@@ -76,7 +76,7 @@ public class ProvinciaRepositoryIT {
             }
         };
         
-        ProvinciaEntity provinciaEntity = provinciaRepository.save(1L, provincia);
+        ProvinciaEntity provinciaEntity = provinciaDas.save(1L, provincia);
         Optional<ProvinciaEntity> expected = provinciaDao.findById(1L);
 
         assertThat(expected).isNotEmpty();
@@ -94,13 +94,13 @@ public class ProvinciaRepositoryIT {
         
         final Optional<ProvinciaEntity> optional = provinciaDao.findById(1L);
         
-        provinciaRepository.delete(optional.get().getId());
+        provinciaDas.delete(optional.get().getId());
         
         final Optional<ProvinciaEntity> expected = provinciaDao.findById(1L);
         assertThat(expected).isEmpty();
     }
     
-    @ComponentScan(basePackages = "com.eiv.repository")
+    @ComponentScan(basePackages = "com.eiv.das")
     public static class TestCfg extends ITestCfg {
         
         @Bean

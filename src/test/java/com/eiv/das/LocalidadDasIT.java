@@ -1,4 +1,4 @@
-package com.eiv.repository;
+package com.eiv.das;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,16 +17,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.eiv.dao.LocalidadDao;
+import com.eiv.das.LocalidadDas;
 import com.eiv.entities.LocalidadEntity;
 import com.eiv.interfaces.Localidad;
-import com.eiv.repository.LocalidadRepository;
 import com.eiv.testutils.ITestCfg;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = LocalidadRepositoryIT.TestCfg.class)
-public class LocalidadRepositoryIT {
+@ContextConfiguration(classes = LocalidadDasIT.TestCfg.class)
+public class LocalidadDasIT {
 
-    @Autowired private LocalidadRepository localidadRepository;
+    @Autowired private LocalidadDas localidadDas;
     
     @Test
     @Transactional
@@ -50,7 +50,7 @@ public class LocalidadRepositoryIT {
             }
         };
         
-        LocalidadEntity localidadEntity = localidadRepository.save(localidad);
+        LocalidadEntity localidadEntity = localidadDas.save(localidad);
         Optional<LocalidadEntity> expected = localidadDao.findById(
                 localidadEntity.getId());
 
@@ -87,7 +87,7 @@ public class LocalidadRepositoryIT {
             }
         };
         
-        LocalidadEntity localidadEntity = localidadRepository.save(1L, localidad);
+        LocalidadEntity localidadEntity = localidadDas.save(1L, localidad);
         Optional<LocalidadEntity> expected = localidadDao.findById(
                 localidadEntity.getId());
 
@@ -108,13 +108,13 @@ public class LocalidadRepositoryIT {
         
         final Optional<LocalidadEntity> optional = localidadDao.findById(1L);
         
-        localidadRepository.delete(optional.get().getId());
+        localidadDas.delete(optional.get().getId());
         
         final Optional<LocalidadEntity> expected = localidadDao.findById(1L);
         assertThat(expected).isEmpty();
     }
     
-    @ComponentScan(basePackages = "com.eiv.repository")
+    @ComponentScan(basePackages = "com.eiv.das")
     public static class TestCfg extends ITestCfg {
         
         @Bean
