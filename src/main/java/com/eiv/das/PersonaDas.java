@@ -8,15 +8,15 @@ import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eiv.dao.LocalidadDao;
-import com.eiv.dao.PersonaDao;
-import com.eiv.dao.TipoDocumentoDao;
 import com.eiv.entities.LocalidadEntity;
 import com.eiv.entities.PersonaEntity;
 import com.eiv.entities.PersonaPkEntity;
 import com.eiv.entities.QPersonaEntity;
 import com.eiv.entities.TipoDocumentoEntity;
 import com.eiv.interfaces.Persona;
+import com.eiv.repository.LocalidadRepository;
+import com.eiv.repository.PersonaRepository;
+import com.eiv.repository.TipoDocumentoRepository;
 import com.eiv.stereotype.DataService;
 import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -24,15 +24,15 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @DataService
 public class PersonaDas {
 
-    @Autowired private LocalidadDao localidadDao;
-    @Autowired private PersonaDao personaDao;
-    @Autowired private TipoDocumentoDao tipoDocumentoDao;
+    @Autowired private LocalidadRepository localidadRepository;
+    @Autowired private PersonaRepository personaRepository;
+    @Autowired private TipoDocumentoRepository tipoDocumentoRepository;
 
     @Transactional(readOnly = true)
     public Optional<PersonaEntity> findById(Consumer<PersonaPkEntity> id) {
         PersonaPkEntity pk = new PersonaPkEntity();
         id.accept(pk);
-        return personaDao.findById(pk);
+        return personaRepository.findById(pk);
     }
 
     @Transactional(readOnly = true)
@@ -41,7 +41,7 @@ public class PersonaDas {
         QPersonaEntity personaQuery = QPersonaEntity.personaEntity;
         BooleanExpression exp = function.apply(personaQuery);
         
-        return (List<PersonaEntity>) personaDao.findAll(exp);
+        return (List<PersonaEntity>) personaRepository.findAll(exp);
     }
 
     @Transactional
@@ -50,9 +50,9 @@ public class PersonaDas {
         PersonaPkEntity pk = new PersonaPkEntity(
                 persona.getTipoDocumentoId(), Long.valueOf(persona.getNumeroDocumento()));
         
-        PersonaEntity personaEntity = personaDao.findById(pk).orElseGet(() -> {
+        PersonaEntity personaEntity = personaRepository.findById(pk).orElseGet(() -> {
             
-            TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoDao
+            TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoRepository
                     .findById(persona.getTipoDocumentoId())
                     .orElseThrow(ExceptionUtils.notFoundExceptionSupplier(
                             "NO EXISTE UN TIPO DE DOCUMENTO CON ID %s", 
@@ -75,7 +75,7 @@ public class PersonaDas {
         if (personaEntity.getLocalidad() == null 
                 || personaEntity.getLocalidad().getId().equals(persona.getLocalidadId())) {
             
-            LocalidadEntity other = localidadDao.findById(persona.getLocalidadId())
+            LocalidadEntity other = localidadRepository.findById(persona.getLocalidadId())
                     .orElseThrow(ExceptionUtils.notFoundExceptionSupplier(
                             "NO EXISTE UNA PERSONA CON ID %s", 
                             persona.getLocalidadId()));
@@ -83,7 +83,7 @@ public class PersonaDas {
             personaEntity.setLocalidad(other);
         }
         
-        personaDao.save(personaEntity);
+        personaRepository.save(personaEntity);
         
         return personaEntity;
     }
@@ -94,10 +94,10 @@ public class PersonaDas {
         PersonaPkEntity pk = new PersonaPkEntity();
         id.accept(pk);
         
-        PersonaEntity personaEntity = personaDao.findById(pk)
+        PersonaEntity personaEntity = personaRepository.findById(pk)
                 .orElseThrow(ExceptionUtils.notFoundExceptionSupplier(
                         "NO EXISTE UNA PERSONA CON ID %s", pk));
         
-        personaDao.delete(personaEntity);
+        personaRepository.delete(personaEntity);
     }
 }

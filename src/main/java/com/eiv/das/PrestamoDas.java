@@ -9,9 +9,6 @@ import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eiv.dao.LineaDao;
-import com.eiv.dao.PersonaDao;
-import com.eiv.dao.PrestamoDao;
 import com.eiv.entities.LineaEntity;
 import com.eiv.entities.PersonaEntity;
 import com.eiv.entities.PersonaPkEntity;
@@ -25,6 +22,9 @@ import com.eiv.interfaces.Prestamo;
 import com.eiv.maths.ctf.ConversorTasaFinanciera;
 import com.eiv.maths.ctf.TasaFinanciera;
 import com.eiv.maths.ctf.TipoTasaFinancieraEnum;
+import com.eiv.repository.LineaRepository;
+import com.eiv.repository.PersonaRepository;
+import com.eiv.repository.PrestamoRepository;
 import com.eiv.stereotype.DataService;
 import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -32,13 +32,13 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @DataService
 public class PrestamoDas {
 
-    @Autowired private LineaDao lineaDao;
-    @Autowired private PersonaDao personaDao;
-    @Autowired private PrestamoDao prestamoDao;
+    @Autowired private LineaRepository lineaRepository;
+    @Autowired private PersonaRepository personaRepository;
+    @Autowired private PrestamoRepository prestamoRepository;
 
     @Transactional(readOnly = true)
     public Optional<PrestamoEntity> findById(Long id) {
-        return prestamoDao.findById(id);
+        return prestamoRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
@@ -47,19 +47,19 @@ public class PrestamoDas {
         QPrestamoEntity prestamoQuery = QPrestamoEntity.prestamoEntity;
         BooleanExpression exp = function.apply(prestamoQuery);
         
-        return (List<PrestamoEntity>) prestamoDao.findAll(exp);
+        return (List<PrestamoEntity>) prestamoRepository.findAll(exp);
     }
     
     @Transactional
     public PrestamoEntity nuevo(Prestamo prestamo, UsuarioEntity usuarioEntity) {
         
-        final long id = prestamoDao.getMax().orElse(0L) +  1L;
+        final long id = prestamoRepository.getMax().orElse(0L) +  1L;
         
-        final LineaEntity linea = lineaDao.findById(prestamo.getLineaId()).orElseThrow(
+        final LineaEntity linea = lineaRepository.findById(prestamo.getLineaId()).orElseThrow(
                 ExceptionUtils.notFoundExceptionSupplier(
                         "NO EXISTE UNA LINEA CON ID %s", prestamo.getLineaId()));
 
-        final PersonaEntity persona = personaDao.findById(
+        final PersonaEntity persona = personaRepository.findById(
                         new PersonaPkEntity(
                                 prestamo.getDocumentoTipoId(), prestamo.getNumeroDocumento()))
                 .orElseThrow(
@@ -148,7 +148,7 @@ public class PrestamoDas {
         prestamoEntity.setTotalCuotas(prestamo.getTotalCuotas());
         prestamoEntity.setUsuario(usuarioEntity);
                 
-        prestamoDao.save(prestamoEntity);
+        prestamoRepository.save(prestamoEntity);
         
         return prestamoEntity;
     }
@@ -156,11 +156,11 @@ public class PrestamoDas {
     @Transactional
     public void borrar(Long prestamoId) {
         
-        PrestamoEntity prestamoEntity = prestamoDao.findById(prestamoId).orElseThrow(
+        PrestamoEntity prestamoEntity = prestamoRepository.findById(prestamoId).orElseThrow(
                 ExceptionUtils.notFoundExceptionSupplier(
                         "NO EXISTE UN PRESTAMO CON ID %s", prestamoId));
         
-        prestamoDao.delete(prestamoEntity);
+        prestamoRepository.delete(prestamoEntity);
     }
     
     private BigDecimal convertirTasaEfectivaEnNominal(BigDecimal tasa, long modulo, long dias) {

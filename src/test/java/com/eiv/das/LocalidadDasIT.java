@@ -16,10 +16,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eiv.dao.LocalidadDao;
 import com.eiv.das.LocalidadDas;
 import com.eiv.entities.LocalidadEntity;
 import com.eiv.interfaces.Localidad;
+import com.eiv.repository.LocalidadRepository;
 import com.eiv.testutils.ITestCfg;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -51,7 +51,7 @@ public class LocalidadDasIT {
         };
         
         LocalidadEntity localidadEntity = localidadDas.save(localidad);
-        Optional<LocalidadEntity> expected = localidadDao.findById(
+        Optional<LocalidadEntity> expected = localidadRepository.findById(
                 localidadEntity.getId());
 
         assertThat(expected).isNotEmpty();
@@ -88,7 +88,7 @@ public class LocalidadDasIT {
         };
         
         LocalidadEntity localidadEntity = localidadDas.save(1L, localidad);
-        Optional<LocalidadEntity> expected = localidadDao.findById(
+        Optional<LocalidadEntity> expected = localidadRepository.findById(
                 localidadEntity.getId());
 
         assertThat(expected).isNotEmpty();
@@ -106,11 +106,11 @@ public class LocalidadDasIT {
     @Transactional
     public void givenLocalidadById_whenDelete_thenLocalidadNoExiste() {
         
-        final Optional<LocalidadEntity> optional = localidadDao.findById(1L);
+        final Optional<LocalidadEntity> optional = localidadRepository.findById(1L);
         
         localidadDas.delete(optional.get().getId());
         
-        final Optional<LocalidadEntity> expected = localidadDao.findById(1L);
+        final Optional<LocalidadEntity> expected = localidadRepository.findById(1L);
         assertThat(expected).isEmpty();
     }
     
@@ -127,5 +127,5 @@ public class LocalidadDasIT {
         }
     }
     
-    @Autowired private LocalidadDao localidadDao;
+    @Autowired private LocalidadRepository localidadRepository;
 }

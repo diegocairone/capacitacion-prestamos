@@ -1,4 +1,4 @@
-package com.eiv.dao;
+package com.eiv.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,26 +15,26 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.eiv.dao.ProvinciaDao;
 import com.eiv.entities.ProvinciaEntity;
+import com.eiv.repository.ProvinciaRepository;
 import com.eiv.testutils.ITestCfg;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ProvinciaDaoIT.TestCfg.class)
-public class ProvinciaDaoIT {
+@ContextConfiguration(classes = ProvinciaRepositoryIT.TestCfg.class)
+public class ProvinciaRepositoryIT {
 
-    @Autowired ProvinciaDao provinciaDao;
+    @Autowired ProvinciaRepository provinciaRepository;
     
     @Test
     public void givenAllProvincias_whenFindById_thenFindProvincia() {
         
-        List<ProvinciaEntity> provinciaEntities = provinciaDao.findAll();
+        List<ProvinciaEntity> provinciaEntities = provinciaRepository.findAll();
         
         assertThat(provinciaEntities).hasSize(5);
         
         provinciaEntities.forEach(item -> {
             
-            Optional<ProvinciaEntity> optional = provinciaDao.findById(item.getId());
+            Optional<ProvinciaEntity> optional = provinciaRepository.findById(item.getId());
             
             assertThat(optional)
                     .contains(item);

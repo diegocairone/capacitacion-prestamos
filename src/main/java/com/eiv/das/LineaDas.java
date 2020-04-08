@@ -9,11 +9,11 @@ import java.util.function.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eiv.dao.LineaDao;
 import com.eiv.entities.LineaEntity;
 import com.eiv.entities.QLineaEntity;
 import com.eiv.entities.UsuarioEntity;
 import com.eiv.interfaces.Linea;
+import com.eiv.repository.LineaRepository;
 import com.eiv.stereotype.DataService;
 import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -21,11 +21,11 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @DataService
 public class LineaDas {
 
-    @Autowired private LineaDao lineaDao;
+    @Autowired private LineaRepository lineaRepository;
 
     @Transactional(readOnly = true)
     public Optional<LineaEntity> findById(Long id) {
-        return lineaDao.findById(id);
+        return lineaRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
@@ -34,13 +34,13 @@ public class LineaDas {
         QLineaEntity lineaQuery = QLineaEntity.lineaEntity;
         BooleanExpression exp = function.apply(lineaQuery);
         
-        return (List<LineaEntity>) lineaDao.findAll(exp);
+        return (List<LineaEntity>) lineaRepository.findAll(exp);
     }
 
     @Transactional
     public LineaEntity save(Linea linea, UsuarioEntity usuario) {
         
-        Long id = lineaDao.getMax().orElse(0L) + 1L;
+        Long id = lineaRepository.getMax().orElse(0L) + 1L;
         
         LineaEntity lineaEntity = new LineaEntity();
         
@@ -60,7 +60,7 @@ public class LineaDas {
         lineaEntity.setFechaAlta(LocalDate.now());
         lineaEntity.setUsuario(usuario);
         
-        lineaDao.save(lineaEntity);
+        lineaRepository.save(lineaEntity);
         
         return lineaEntity;
     }
@@ -68,7 +68,7 @@ public class LineaDas {
     @Transactional
     public LineaEntity save(Long id, Linea linea) {
         
-        LineaEntity lineaEntity = lineaDao
+        LineaEntity lineaEntity = lineaRepository
                 .findById(id)
                 .orElseThrow(exceptionSupplier(id));
         
@@ -85,7 +85,7 @@ public class LineaDas {
         lineaEntity.setCapitalMin(linea.getCapitalMin());
         lineaEntity.setCapitalMax(linea.getCapitalMax());
 
-        lineaDao.save(lineaEntity);
+        lineaRepository.save(lineaEntity);
         
         return lineaEntity;
     }
@@ -93,10 +93,10 @@ public class LineaDas {
     @Transactional
     public void delete(Long id) {
         
-        LineaEntity lineaEntity = lineaDao.findById(id)
+        LineaEntity lineaEntity = lineaRepository.findById(id)
                 .orElseThrow(exceptionSupplier(id));
         
-        lineaDao.delete(lineaEntity);
+        lineaRepository.delete(lineaEntity);
     }
 
     private Supplier<? extends RuntimeException> exceptionSupplier(Long id) {

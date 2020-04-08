@@ -1,4 +1,4 @@
-package com.eiv.dao;
+package com.eiv.repository;
 
 import java.util.Optional;
 
@@ -6,11 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
-import com.eiv.entities.PrestamoEntity;
+import com.eiv.entities.LineaEntity;
 
-public interface PrestamoDao extends 
-        JpaRepository<PrestamoEntity, Long>, QuerydslPredicateExecutor<PrestamoEntity> {
+public interface LineaRepository extends 
+        JpaRepository<LineaEntity, Long>, QuerydslPredicateExecutor<LineaEntity> {
 
-    @Query("SELECT MAX(e.id) FROM PrestamoEntity e")
+    @Query("SELECT MAX(e.id) FROM LineaEntity e")
     public Optional<Long> getMax();
 }

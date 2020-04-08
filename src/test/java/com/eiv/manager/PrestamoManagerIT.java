@@ -15,12 +15,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.eiv.dao.UsuarioDao;
 import com.eiv.entities.PersonaPkEntity;
 import com.eiv.entities.PrestamoEntity;
 import com.eiv.entities.UsuarioEntity;
 import com.eiv.enums.UnidadAmortizacionEnum;
 import com.eiv.interfaces.PrestamoSolicitudFrm;
+import com.eiv.repository.UsuarioRepository;
 import com.eiv.testutils.ITestCfg;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -85,7 +85,7 @@ public class PrestamoManagerIT {
             }
         };
         
-        final UsuarioEntity usuarioEntity = usuarioDao
+        final UsuarioEntity usuarioEntity = usuarioRepository
                 .findById(new PersonaPkEntity(1L, 1L))
                 .get();
         
@@ -109,5 +109,5 @@ public class PrestamoManagerIT {
         }
     }    
 
-    @Autowired private UsuarioDao usuarioDao;
+    @Autowired private UsuarioRepository usuarioRepository;
 }

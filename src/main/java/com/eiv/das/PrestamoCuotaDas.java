@@ -8,12 +8,12 @@ import java.util.function.Function;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eiv.dao.PrestamoCuotaDao;
 import com.eiv.entities.PrestamoCuotaEntity;
 import com.eiv.entities.PrestamoCuotaPkEntity;
 import com.eiv.entities.PrestamoEntity;
 import com.eiv.entities.QPrestamoCuotaEntity;
 import com.eiv.interfaces.PrestamoCuota;
+import com.eiv.repository.PrestamoCuotaRepository;
 import com.eiv.stereotype.DataService;
 import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -21,13 +21,13 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @DataService
 public class PrestamoCuotaDas {
 
-    @Autowired private PrestamoCuotaDao prestamoCuotaDao;
+    @Autowired private PrestamoCuotaRepository prestamoCuotaRepository;
 
     @Transactional(readOnly = true)
     public Optional<PrestamoCuotaEntity> findById(Consumer<PrestamoCuotaPkEntity> id) {
         PrestamoCuotaPkEntity pk = new PrestamoCuotaPkEntity();
         id.accept(pk);
-        return prestamoCuotaDao.findById(pk);
+        return prestamoCuotaRepository.findById(pk);
     }
 
     @Transactional(readOnly = true)
@@ -37,7 +37,7 @@ public class PrestamoCuotaDas {
         QPrestamoCuotaEntity prestamoCuotaQuery = QPrestamoCuotaEntity.prestamoCuotaEntity;
         BooleanExpression exp = function.apply(prestamoCuotaQuery);
         
-        return (List<PrestamoCuotaEntity>) prestamoCuotaDao.findAll(exp);
+        return (List<PrestamoCuotaEntity>) prestamoCuotaRepository.findAll(exp);
     }
 
     @Transactional
@@ -53,7 +53,7 @@ public class PrestamoCuotaDas {
         prestamoCuotaEntity.setTotal(prestamoCuota.getCapital().add(prestamoCuota.getInteres()));
         prestamoCuotaEntity.setSaldoCapital(prestamoCuota.getSaldoCapital());
         
-        prestamoCuotaDao.save(prestamoCuotaEntity);
+        prestamoCuotaRepository.save(prestamoCuotaEntity);
         
         return prestamoCuotaEntity;
     }
@@ -64,10 +64,10 @@ public class PrestamoCuotaDas {
         PrestamoCuotaPkEntity pk = new PrestamoCuotaPkEntity();
         id.accept(pk);
         
-        PrestamoCuotaEntity prestamoCuotaEntity = prestamoCuotaDao.findById(pk).orElseThrow(
+        PrestamoCuotaEntity prestamoCuotaEntity = prestamoCuotaRepository.findById(pk).orElseThrow(
                 ExceptionUtils.notFoundExceptionSupplier(
                         "NO EXISTE UN PRESTAMO CON ID %s", pk));
         
-        prestamoCuotaDao.delete(prestamoCuotaEntity);
+        prestamoCuotaRepository.delete(prestamoCuotaEntity);
     }
 }

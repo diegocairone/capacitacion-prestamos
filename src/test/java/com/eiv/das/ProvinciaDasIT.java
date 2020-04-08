@@ -16,11 +16,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eiv.dao.ProvinciaDao;
 import com.eiv.das.ProvinciaDas;
 import com.eiv.entities.ProvinciaEntity;
 import com.eiv.enums.RegionEnum;
 import com.eiv.interfaces.Provincia;
+import com.eiv.repository.ProvinciaRepository;
 import com.eiv.testutils.ITestCfg;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,7 +47,7 @@ public class ProvinciaDasIT {
         };
         
         ProvinciaEntity provinciaEntity = provinciaDas.save(provincia);
-        Optional<ProvinciaEntity> expected = provinciaDao.findById(
+        Optional<ProvinciaEntity> expected = provinciaRepository.findById(
                 provinciaEntity.getId());
 
         assertThat(expected).isNotEmpty();
@@ -77,7 +77,7 @@ public class ProvinciaDasIT {
         };
         
         ProvinciaEntity provinciaEntity = provinciaDas.save(1L, provincia);
-        Optional<ProvinciaEntity> expected = provinciaDao.findById(1L);
+        Optional<ProvinciaEntity> expected = provinciaRepository.findById(1L);
 
         assertThat(expected).isNotEmpty();
         assertThat(expected.get()).isEqualTo(provinciaEntity);
@@ -92,11 +92,11 @@ public class ProvinciaDasIT {
     @Transactional
     public void givenProvinciaById_whenDelete_thenProvinciaNoExiste() {
         
-        final Optional<ProvinciaEntity> optional = provinciaDao.findById(1L);
+        final Optional<ProvinciaEntity> optional = provinciaRepository.findById(1L);
         
         provinciaDas.delete(optional.get().getId());
         
-        final Optional<ProvinciaEntity> expected = provinciaDao.findById(1L);
+        final Optional<ProvinciaEntity> expected = provinciaRepository.findById(1L);
         assertThat(expected).isEmpty();
     }
     
@@ -113,5 +113,5 @@ public class ProvinciaDasIT {
         }
     }
     
-    @Autowired private ProvinciaDao provinciaDao;
+    @Autowired private ProvinciaRepository provinciaRepository;
 }

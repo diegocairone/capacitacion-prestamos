@@ -14,11 +14,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.eiv.dao.TipoDocumentoDao;
 import com.eiv.das.TipoDocumentoDas;
 import com.eiv.entities.TipoDocumentoEntity;
 import com.eiv.exceptions.NotFoundServiceException;
 import com.eiv.interfaces.TipoDocumento;
+import com.eiv.repository.TipoDocumentoRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TipoDocumentoDasTest {
@@ -29,14 +29,14 @@ public class TipoDocumentoDasTest {
     public void givenTipoDocumentoId_whenFindById_thenOptionalTipoDocumento() {
         
         tipoDocumentoDas.findById(1L);
-        Mockito.verify(tipoDocumentoDao).findById(Mockito.anyLong());
+        Mockito.verify(tipoDocumentoRepository).findById(Mockito.anyLong());
     }
 
     @Test
     public void whenFindAll_thenListTipoDocumento() {
         
         tipoDocumentoDas.findAll();
-        Mockito.verify(tipoDocumentoDao).findAll();
+        Mockito.verify(tipoDocumentoRepository).findAll();
     }
 
     @Test
@@ -70,7 +70,7 @@ public class TipoDocumentoDasTest {
         Assertions.assertThat(tipoDocumentoEntity.getAbreviatura()).isEqualTo(
                 tipoDocumento.getAbreviatura());
         
-        Mockito.verify(tipoDocumentoDao).save(Mockito.any(TipoDocumentoEntity.class));
+        Mockito.verify(tipoDocumentoRepository).save(Mockito.any(TipoDocumentoEntity.class));
     }
     
     @Test
@@ -101,7 +101,7 @@ public class TipoDocumentoDasTest {
         mock.setAbreviatura("ORIGEN");
         mock.setValidarComoCuit(true);
         
-        Mockito.when(tipoDocumentoDao.findById(1L)).thenReturn(Optional.of(mock));
+        Mockito.when(tipoDocumentoRepository.findById(1L)).thenReturn(Optional.of(mock));
 
         TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoDas.save(1L, tipoDocumento);
         
@@ -113,8 +113,8 @@ public class TipoDocumentoDasTest {
         Assertions.assertThat(tipoDocumentoEntity.getAbreviatura()).isEqualTo(
                 tipoDocumento.getAbreviatura());
         
-        Mockito.verify(tipoDocumentoDao).findById(Mockito.anyLong());
-        Mockito.verify(tipoDocumentoDao).save(Mockito.any(TipoDocumentoEntity.class));
+        Mockito.verify(tipoDocumentoRepository).findById(Mockito.anyLong());
+        Mockito.verify(tipoDocumentoRepository).save(Mockito.any(TipoDocumentoEntity.class));
     }
 
     @Test
@@ -142,9 +142,9 @@ public class TipoDocumentoDasTest {
             tipoDocumentoDas.save(1L, tipoDocumento);
         }).isInstanceOf(NotFoundServiceException.class);
                 
-        Mockito.verify(tipoDocumentoDao).findById(
+        Mockito.verify(tipoDocumentoRepository).findById(
                 Mockito.anyLong());
-        Mockito.verify(tipoDocumentoDao, Mockito.never()).save(
+        Mockito.verify(tipoDocumentoRepository, Mockito.never()).save(
                 Mockito.any(TipoDocumentoEntity.class));
     }
 
@@ -158,13 +158,13 @@ public class TipoDocumentoDasTest {
         expected.setAbreviatura("ORIGEN");
         expected.setValidarComoCuit(true);
         
-        Mockito.when(tipoDocumentoDao.findById(1L)).thenReturn(
+        Mockito.when(tipoDocumentoRepository.findById(1L)).thenReturn(
                 Optional.of(expected));
         
         tipoDocumentoDas.delete(1L);
 
-        Mockito.verify(tipoDocumentoDao).findById(Mockito.anyLong());
-        Mockito.verify(tipoDocumentoDao).delete(Mockito.any(TipoDocumentoEntity.class));
+        Mockito.verify(tipoDocumentoRepository).findById(Mockito.anyLong());
+        Mockito.verify(tipoDocumentoRepository).delete(Mockito.any(TipoDocumentoEntity.class));
     }
 
     @Test
@@ -174,9 +174,9 @@ public class TipoDocumentoDasTest {
             tipoDocumentoDas.delete(Mockito.anyLong());
         }).isInstanceOf(NotFoundServiceException.class);
         
-        Mockito.verify(tipoDocumentoDao).findById(Mockito.anyLong());
+        Mockito.verify(tipoDocumentoRepository).findById(Mockito.anyLong());
         
-        Mockito.verify(tipoDocumentoDao, Mockito.never()).save(
+        Mockito.verify(tipoDocumentoRepository, Mockito.never()).save(
                 Mockito.any(TipoDocumentoEntity.class));
     }
     
@@ -185,5 +185,5 @@ public class TipoDocumentoDasTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Mock private TipoDocumentoDao tipoDocumentoDao;
+    @Mock private TipoDocumentoRepository tipoDocumentoRepository;
 }

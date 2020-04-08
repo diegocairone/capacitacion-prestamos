@@ -8,10 +8,10 @@ import java.util.function.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eiv.dao.ProvinciaDao;
 import com.eiv.entities.ProvinciaEntity;
 import com.eiv.entities.QProvinciaEntity;
 import com.eiv.interfaces.Provincia;
+import com.eiv.repository.ProvinciaRepository;
 import com.eiv.stereotype.DataService;
 import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -20,16 +20,16 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 public class ProvinciaDas {
 
     @Autowired
-    private ProvinciaDao provinciaDao;
+    private ProvinciaRepository provinciaRepository;
     
     @Transactional(readOnly = true)
     public Optional<ProvinciaEntity> findById(Long id) {
-        return provinciaDao.findById(id);
+        return provinciaRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
     public List<ProvinciaEntity> findAll() {
-        return provinciaDao.findAll();
+        return provinciaRepository.findAll();
     }
 
     @Transactional(readOnly = true)
@@ -38,7 +38,7 @@ public class ProvinciaDas {
         QProvinciaEntity provinciaQuery = QProvinciaEntity.provinciaEntity;
         BooleanExpression exp = function.apply(provinciaQuery);
         
-        return (List<ProvinciaEntity>) provinciaDao.findAll(exp);
+        return (List<ProvinciaEntity>) provinciaRepository.findAll(exp);
     }
     
     @Transactional
@@ -49,7 +49,7 @@ public class ProvinciaDas {
         provinciaEntity.setNombre(provincia.getNombre());
         provinciaEntity.setRegion(provincia.getRegion());
         
-        provinciaDao.save(provinciaEntity);
+        provinciaRepository.save(provinciaEntity);
         
         return provinciaEntity;
     }
@@ -57,13 +57,13 @@ public class ProvinciaDas {
     @Transactional
     public ProvinciaEntity save(Long id, Provincia provincia) {
         
-        ProvinciaEntity provinciaEntity = provinciaDao.findById(id)
+        ProvinciaEntity provinciaEntity = provinciaRepository.findById(id)
                 .orElseThrow(exceptionSupplier(id));
         
         provinciaEntity.setNombre(provincia.getNombre());
         provinciaEntity.setRegion(provincia.getRegion());
         
-        provinciaDao.save(provinciaEntity);
+        provinciaRepository.save(provinciaEntity);
         
         return provinciaEntity;
     }
@@ -71,10 +71,10 @@ public class ProvinciaDas {
     @Transactional
     public void delete(Long id) {
         
-        ProvinciaEntity provinciaEntity = provinciaDao.findById(id)
+        ProvinciaEntity provinciaEntity = provinciaRepository.findById(id)
                 .orElseThrow(exceptionSupplier(id));
         
-        provinciaDao.delete(provinciaEntity);
+        provinciaRepository.delete(provinciaEntity);
     }
 
     private Supplier<? extends RuntimeException> exceptionSupplier(Long id) {

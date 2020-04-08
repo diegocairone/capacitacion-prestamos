@@ -8,10 +8,10 @@ import java.util.function.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eiv.dao.TipoDocumentoDao;
 import com.eiv.entities.QTipoDocumentoEntity;
 import com.eiv.entities.TipoDocumentoEntity;
 import com.eiv.interfaces.TipoDocumento;
+import com.eiv.repository.TipoDocumentoRepository;
 import com.eiv.stereotype.DataService;
 import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -19,16 +19,16 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @DataService
 public class TipoDocumentoDas {
 
-    @Autowired private TipoDocumentoDao tipoDocumentoDao;
+    @Autowired private TipoDocumentoRepository tipoDocumentoRepository;
     
     @Transactional(readOnly = true)
     public Optional<TipoDocumentoEntity> findById(Long id) {
-        return tipoDocumentoDao.findById(id);
+        return tipoDocumentoRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
     public List<TipoDocumentoEntity> findAll() {
-        return tipoDocumentoDao.findAll();
+        return tipoDocumentoRepository.findAll();
     }
 
     @Transactional(readOnly = true)
@@ -36,7 +36,7 @@ public class TipoDocumentoDas {
             Function<QTipoDocumentoEntity, BooleanExpression> function) {
         QTipoDocumentoEntity tipoDocumentoQuery = QTipoDocumentoEntity.tipoDocumentoEntity;
         BooleanExpression exp = function.apply(tipoDocumentoQuery);
-        return (List<TipoDocumentoEntity>) tipoDocumentoDao.findAll(exp);
+        return (List<TipoDocumentoEntity>) tipoDocumentoRepository.findAll(exp);
     }
     
     @Transactional
@@ -47,7 +47,7 @@ public class TipoDocumentoDas {
         tipoDocumentoEntity.setAbreviatura(tipoDocumento.getAbreviatura());
         tipoDocumentoEntity.setValidarComoCuit(tipoDocumento.getValidarComoCuit());
         
-        tipoDocumentoDao.save(tipoDocumentoEntity);
+        tipoDocumentoRepository.save(tipoDocumentoEntity);
         
         return tipoDocumentoEntity;
     }
@@ -55,14 +55,14 @@ public class TipoDocumentoDas {
     @Transactional
     public TipoDocumentoEntity save(Long id, TipoDocumento tipoDocumento) {
 
-        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoDao.findById(id)
+        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoRepository.findById(id)
                 .orElseThrow(exceptionSupplier(id));
         
         tipoDocumentoEntity.setNombre(tipoDocumento.getNombre());
         tipoDocumentoEntity.setAbreviatura(tipoDocumento.getAbreviatura());
         tipoDocumentoEntity.setValidarComoCuit(tipoDocumento.getValidarComoCuit());
         
-        tipoDocumentoDao.save(tipoDocumentoEntity);
+        tipoDocumentoRepository.save(tipoDocumentoEntity);
         
         return tipoDocumentoEntity;
     }
@@ -70,10 +70,10 @@ public class TipoDocumentoDas {
     @Transactional
     public void delete(Long id) {
         
-        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoDao.findById(id)
+        TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoRepository.findById(id)
                 .orElseThrow(exceptionSupplier(id));
         
-        tipoDocumentoDao.delete(tipoDocumentoEntity);
+        tipoDocumentoRepository.delete(tipoDocumentoEntity);
     }
 
     private Supplier<? extends RuntimeException> exceptionSupplier(Long id) {

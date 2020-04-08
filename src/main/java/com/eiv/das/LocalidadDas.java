@@ -8,13 +8,13 @@ import java.util.function.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eiv.dao.LocalidadDao;
-import com.eiv.dao.ProvinciaDao;
 import com.eiv.entities.LocalidadEntity;
 import com.eiv.entities.ProvinciaEntity;
 import com.eiv.entities.QLocalidadEntity;
 import com.eiv.exceptions.NotFoundServiceException;
 import com.eiv.interfaces.Localidad;
+import com.eiv.repository.LocalidadRepository;
+import com.eiv.repository.ProvinciaRepository;
 import com.eiv.stereotype.DataService;
 import com.eiv.utiles.ExceptionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -22,12 +22,12 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 @DataService
 public class LocalidadDas {
 
-    @Autowired private LocalidadDao localidadDao;
-    @Autowired private ProvinciaDao provinciaDao; 
+    @Autowired private LocalidadRepository localidadRepository;
+    @Autowired private ProvinciaRepository provinciaRepository; 
 
     @Transactional(readOnly = true)
     public Optional<LocalidadEntity> findById(Long id) {
-        return localidadDao.findById(id);
+        return localidadRepository.findById(id);
     }
 
     @Transactional(readOnly = true)
@@ -36,14 +36,14 @@ public class LocalidadDas {
         QLocalidadEntity localidadQuery = QLocalidadEntity.localidadEntity;
         BooleanExpression exp = function.apply(localidadQuery);
         
-        return (List<LocalidadEntity>) localidadDao.findAll(exp);
+        return (List<LocalidadEntity>) localidadRepository.findAll(exp);
     }
 
     @Transactional
     public LocalidadEntity save(Localidad localidad) {
         
-        Long id = localidadDao.getMax().orElse(0L) + 1L;
-        ProvinciaEntity provinciaEntity = provinciaDao
+        Long id = localidadRepository.getMax().orElse(0L) + 1L;
+        ProvinciaEntity provinciaEntity = provinciaRepository
                 .findById(localidad.getProvinciaId())
                 .orElseThrow(() -> new NotFoundServiceException(
                         "NO SE ENCUENTRA UNA PROVINCIA CON ID %s", localidad.getProvinciaId()));
@@ -55,7 +55,7 @@ public class LocalidadDas {
         localidadEntity.setProvincia(provinciaEntity);
         localidadEntity.setCodigoPostal(localidad.getCodigoPostal());
         
-        localidadDao.save(localidadEntity);
+        localidadRepository.save(localidadEntity);
         
         return localidadEntity;
     }
@@ -63,7 +63,7 @@ public class LocalidadDas {
     @Transactional
     public LocalidadEntity save(Long id, Localidad localidad) {
         
-        LocalidadEntity localidadEntity = localidadDao
+        LocalidadEntity localidadEntity = localidadRepository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundServiceException(
                         "NO SE ENCUENTRA UNA LOCALIDAD CON ID %s", id));
@@ -74,7 +74,7 @@ public class LocalidadDas {
         if (!localidad.getProvinciaId().equals(
                 localidadEntity.getProvincia().getId())) {
 
-            ProvinciaEntity provinciaEntity = provinciaDao
+            ProvinciaEntity provinciaEntity = provinciaRepository
                     .findById(localidad.getProvinciaId())
                     .orElseThrow(() -> new NotFoundServiceException(
                             "NO SE ENCUENTRA UNA PROVINCIA CON ID %s", 
@@ -83,7 +83,7 @@ public class LocalidadDas {
             localidadEntity.setProvincia(provinciaEntity);
         }
         
-        localidadDao.save(localidadEntity);
+        localidadRepository.save(localidadEntity);
         
         return localidadEntity;
     }
@@ -91,10 +91,10 @@ public class LocalidadDas {
     @Transactional
     public void delete(Long id) {
         
-        LocalidadEntity localidadEntity = localidadDao.findById(id)
+        LocalidadEntity localidadEntity = localidadRepository.findById(id)
                 .orElseThrow(exceptionSupplier(id));
         
-        localidadDao.delete(localidadEntity);
+        localidadRepository.delete(localidadEntity);
     }
 
     private Supplier<? extends RuntimeException> exceptionSupplier(Long id) {

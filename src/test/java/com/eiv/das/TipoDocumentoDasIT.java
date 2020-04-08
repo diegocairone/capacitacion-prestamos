@@ -16,10 +16,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eiv.dao.TipoDocumentoDao;
 import com.eiv.das.TipoDocumentoDas;
 import com.eiv.entities.TipoDocumentoEntity;
 import com.eiv.interfaces.TipoDocumento;
+import com.eiv.repository.TipoDocumentoRepository;
 import com.eiv.testutils.ITestCfg;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -51,7 +51,7 @@ public class TipoDocumentoDasIT {
         };
         
         TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoDas.save(tipoDocumento);
-        Optional<TipoDocumentoEntity> expected = tipoDocumentoDao.findById(
+        Optional<TipoDocumentoEntity> expected = tipoDocumentoRepository.findById(
                 tipoDocumentoEntity.getId());
 
         assertThat(expected).isNotEmpty();
@@ -88,7 +88,7 @@ public class TipoDocumentoDasIT {
         };
 
         TipoDocumentoEntity tipoDocumentoEntity = tipoDocumentoDas.save(1L, tipoDocumento);
-        Optional<TipoDocumentoEntity> expected = tipoDocumentoDao.findById(1L);
+        Optional<TipoDocumentoEntity> expected = tipoDocumentoRepository.findById(1L);
 
         assertThat(expected).isNotEmpty();
         assertThat(expected.get()).isEqualTo(tipoDocumentoEntity);
@@ -105,12 +105,12 @@ public class TipoDocumentoDasIT {
     @Transactional
     public void givenTipoDocumentoId_whenDelete_thenNoExisteTipoDocumento() {
         
-        Optional<TipoDocumentoEntity> expected = tipoDocumentoDao.findById(1L);
+        Optional<TipoDocumentoEntity> expected = tipoDocumentoRepository.findById(1L);
         assertThat(expected).isNotEmpty();
         
         tipoDocumentoDas.delete(1L);
         
-        boolean exist = tipoDocumentoDao.existsById(1L);
+        boolean exist = tipoDocumentoRepository.existsById(1L);
         assertThat(exist).isFalse();
     }
 
@@ -127,5 +127,5 @@ public class TipoDocumentoDasIT {
         }
     }
     
-    @Autowired private TipoDocumentoDao tipoDocumentoDao;
+    @Autowired private TipoDocumentoRepository tipoDocumentoRepository;
 }

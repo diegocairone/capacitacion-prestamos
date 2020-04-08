@@ -1,4 +1,4 @@
-package com.eiv.dao;
+package com.eiv.repository;
 
 import java.util.Optional;
 
@@ -6,11 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
-import com.eiv.entities.LineaEntity;
+import com.eiv.entities.LocalidadEntity;
 
-public interface LineaDao extends 
-        JpaRepository<LineaEntity, Long>, QuerydslPredicateExecutor<LineaEntity> {
+public interface LocalidadRepository extends 
+        JpaRepository<LocalidadEntity, Long>, QuerydslPredicateExecutor<LocalidadEntity> {
 
-    @Query("SELECT MAX(e.id) FROM LineaEntity e")
+    @Query("SELECT MAX(e.id) FROM LocalidadEntity e")
     public Optional<Long> getMax();
 }

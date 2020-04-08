@@ -14,12 +14,12 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import com.eiv.dao.ProvinciaDao;
 import com.eiv.das.ProvinciaDas;
 import com.eiv.entities.ProvinciaEntity;
 import com.eiv.enums.RegionEnum;
 import com.eiv.exceptions.NotFoundServiceException;
 import com.eiv.interfaces.Provincia;
+import com.eiv.repository.ProvinciaRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -31,21 +31,21 @@ public class ProvinciaDasTest {
     public void givenProvinciaId_whenFindById_thenOptionalProvincia() {
         
         provinciaDas.findById(1L);
-        Mockito.verify(provinciaDao).findById(Mockito.anyLong());
+        Mockito.verify(provinciaRepository).findById(Mockito.anyLong());
     }
 
     @Test
     public void whenFindAll_thenListProvincia() {
         
         provinciaDas.findAll();
-        Mockito.verify(provinciaDao).findAll();
+        Mockito.verify(provinciaRepository).findAll();
     }
 
     @Test
     public void givenBoolExp_whenFindAll_thenListProvincia() {
         
         provinciaDas.findAll(q -> q.id.isNotNull());
-        Mockito.verify(provinciaDao).findAll(Mockito.any(BooleanExpression.class));
+        Mockito.verify(provinciaRepository).findAll(Mockito.any(BooleanExpression.class));
     }
 
     @Test
@@ -71,7 +71,7 @@ public class ProvinciaDasTest {
         assertThat(provinciaEntity.getRegion()).isEqualTo(
                 provincia.getRegion());
         
-        Mockito.verify(provinciaDao).save(Mockito.any(ProvinciaEntity.class));
+        Mockito.verify(provinciaRepository).save(Mockito.any(ProvinciaEntity.class));
     }
 
     @Test
@@ -96,7 +96,7 @@ public class ProvinciaDasTest {
         expected.setNombre("ORIGEN");
         expected.setRegion(RegionEnum.NORDESTE);
         
-        Mockito.when(provinciaDao.findById(1L)).thenReturn(
+        Mockito.when(provinciaRepository.findById(1L)).thenReturn(
                 Optional.of(expected));
         
         ProvinciaEntity provinciaEntity = provinciaDas.save(1L, provincia);
@@ -106,7 +106,7 @@ public class ProvinciaDasTest {
         assertThat(provinciaEntity.getRegion()).isEqualTo(
                 provincia.getRegion());
 
-        Mockito.verify(provinciaDao).save(Mockito.any(ProvinciaEntity.class));
+        Mockito.verify(provinciaRepository).save(Mockito.any(ProvinciaEntity.class));
     }
    
     @Test
@@ -116,7 +116,7 @@ public class ProvinciaDasTest {
             provinciaDas.save(1L, Mockito.any());
         }).isInstanceOf(NotFoundServiceException.class);
         
-        Mockito.verify(provinciaDao, Mockito.never()).save(
+        Mockito.verify(provinciaRepository, Mockito.never()).save(
                 Mockito.any(ProvinciaEntity.class));
     }
 
@@ -129,13 +129,13 @@ public class ProvinciaDasTest {
         expected.setNombre("ORIGEN");
         expected.setRegion(RegionEnum.NORDESTE);
         
-        Mockito.when(provinciaDao.findById(1L)).thenReturn(
+        Mockito.when(provinciaRepository.findById(1L)).thenReturn(
                 Optional.of(expected));
         
         provinciaDas.delete(1L);
 
-        Mockito.verify(provinciaDao).findById(Mockito.anyLong());
-        Mockito.verify(provinciaDao).delete(Mockito.any(ProvinciaEntity.class));
+        Mockito.verify(provinciaRepository).findById(Mockito.anyLong());
+        Mockito.verify(provinciaRepository).delete(Mockito.any(ProvinciaEntity.class));
     }
 
     @Test
@@ -145,9 +145,9 @@ public class ProvinciaDasTest {
             provinciaDas.delete(Mockito.anyLong());
         }).isInstanceOf(NotFoundServiceException.class);
         
-        Mockito.verify(provinciaDao).findById(Mockito.anyLong());
+        Mockito.verify(provinciaRepository).findById(Mockito.anyLong());
         
-        Mockito.verify(provinciaDao, Mockito.never()).save(
+        Mockito.verify(provinciaRepository, Mockito.never()).save(
                 Mockito.any(ProvinciaEntity.class));
     }
 
@@ -156,5 +156,5 @@ public class ProvinciaDasTest {
         MockitoAnnotations.initMocks(this);
     }
     
-    @Mock private ProvinciaDao provinciaDao;
+    @Mock private ProvinciaRepository provinciaRepository;
 }
