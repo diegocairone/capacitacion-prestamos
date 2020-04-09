@@ -7,14 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
 import com.eiv.interfaces.PrestamoCuota;
 import com.eiv.interfaces.PrestamoDesarrolloParam;
 import com.eiv.maths.ctf.ConversorTasaFinanciera;
 import com.eiv.maths.ctf.TipoTasaFinancieraEnum;
+import com.eiv.stereotype.BizService;
 
-@Service
+@BizService
 public class PrestamoDesarrolloFrancesService 
         extends PrestamoDesarrolloBaseService implements PrestamoDesarrolloService {
     

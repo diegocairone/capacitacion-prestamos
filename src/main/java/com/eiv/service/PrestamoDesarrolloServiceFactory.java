@@ -1,11 +1,11 @@
 package com.eiv.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.eiv.enums.SistemaAmortizacionEnum;
+import com.eiv.stereotype.BizService;
 
-@Service
+@BizService
 public class PrestamoDesarrolloServiceFactory {
 
     private static PrestamoDesarrolloAlemanService ALEMAN_SERVICE;

@@ -2,12 +2,11 @@ package com.eiv.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.eiv.interfaces.PrestamoCuota;
 import com.eiv.interfaces.PrestamoDesarrolloParam;
+import com.eiv.stereotype.BizService;
 
-@Service
+@BizService
 public class PrestamoDesarrolloAlemanService 
         extends PrestamoDesarrolloBaseService implements PrestamoDesarrolloService {
 
