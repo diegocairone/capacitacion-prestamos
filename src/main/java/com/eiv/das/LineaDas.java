@@ -57,6 +57,7 @@ public class LineaDas {
         lineaEntity.setCuotasMax(linea.getCuotasMax());
         lineaEntity.setCapitalMin(linea.getCapitalMin());
         lineaEntity.setCapitalMax(linea.getCapitalMax());
+        lineaEntity.setEdadMax(linea.getEdadMax());
         lineaEntity.setFechaAlta(LocalDate.now());
         lineaEntity.setUsuario(usuario);
         

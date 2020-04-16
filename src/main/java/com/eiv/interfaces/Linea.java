@@ -32,4 +32,5 @@ public interface Linea {
 
     public BigDecimal getCapitalMax();
 
+    public Integer getEdadMax();
 }

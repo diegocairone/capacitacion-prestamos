@@ -58,6 +58,9 @@ public class LineaEntity {
     
     @Column(name = "capital_max", nullable = false)
     private BigDecimal capitalMax;
+
+    @Column(name = "edad_maxima", nullable = false)
+    private Integer edadMax;
     
     @Column(name = "fecha_alta", nullable = false)
     private LocalDate fechaAlta;
@@ -177,6 +180,14 @@ public class LineaEntity {
 
     public void setCapitalMax(BigDecimal capitalMax) {
         this.capitalMax = capitalMax;
+    }
+
+    public Integer getEdadMax() {
+        return edadMax;
+    }
+
+    public void setEdadMax(Integer edadMax) {
+        this.edadMax = edadMax;
     }
 
     public LocalDate getFechaAlta() {
