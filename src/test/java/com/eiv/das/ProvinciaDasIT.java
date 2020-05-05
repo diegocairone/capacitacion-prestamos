@@ -12,11 +12,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.eiv.das.ProvinciaDas;
 import com.eiv.entities.ProvinciaEntity;
 import com.eiv.enums.RegionEnum;
 import com.eiv.interfaces.Provincia;
@@ -102,14 +103,19 @@ public class ProvinciaDasIT {
     
     @ComponentScan(basePackages = "com.eiv.das")
     public static class TestCfg extends ITestCfg {
-        
+                
         @Bean
         public DataSource getDataSource() {
             JdbcDataSource ds = new JdbcDataSource();
-            ds.setUrl("jdbc:h2:mem:testdb"
-                    + ";INIT=runscript from 'src/test/resources/test-provincias.sql'");
-            ds.setUser("sa");
+            ds.setUrl("jdbc:h2:mem:testdb;AUTO_RECONNECT=true;DB_CLOSE_DELAY=-1");
             return ds;
+        }
+        
+        @Override
+        public ResourceDatabasePopulator getPopulator() {
+            ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+            populator.addScript(new ClassPathResource("/test-provincias.sql"));
+            return populator;
         }
     }
     

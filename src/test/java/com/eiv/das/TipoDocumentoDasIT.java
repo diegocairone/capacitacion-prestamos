@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,6 +125,12 @@ public class TipoDocumentoDasIT {
                     + ";INIT=runscript from 'src/test/resources/test-tipos-documentos.sql'");
             ds.setUser("sa");
             return ds;
+        }
+
+        @Override
+        public ResourceDatabasePopulator getPopulator() {
+            // TODO Auto-generated method stub
+            return null;
         }
     }
     

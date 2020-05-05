@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -50,6 +51,12 @@ public class ProvinciaRepositoryIT {
                     + ";INIT=runscript from 'src/test/resources/test-provincias.sql'");
             ds.setUser("sa");
             return ds;
+        }
+
+        @Override
+        public ResourceDatabasePopulator getPopulator() {
+            // TODO Auto-generated method stub
+            return null;
         }
     }
 }
